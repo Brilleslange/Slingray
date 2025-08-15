@@ -1,7 +1,5 @@
-import {BASE_COLORS, COLORS, POK_COLORS} from "../constants/colors.js";
-
-const ColorExclude = ({expansions}) => {
-    const isAllowedColor = (color) => BASE_COLORS.has(color) || (Boolean(expansions?.pok) && POK_COLORS.has(color))
+const ColorExclude = ({expansions, colors}) => {
+    const isAllowedColor = (color) => colors || (Boolean(expansions?.pok) && POK_COLORS.has(color))
     const allowedColors = Array.from(COLORS).filter(isAllowedColor);
 
     const mirrorCheck = (e) => {
@@ -36,6 +34,7 @@ const ColorExclude = ({expansions}) => {
                             <td key={secondColor}>
                                 <input
                                     type={"checkbox"}
+                                    className={"checkbox"}
                                     name={"color_exclude"}
                                     id={`${firstColor.toLowerCase()}-${secondColor.toLowerCase()}`}
                                     onChange={mirrorCheck}
