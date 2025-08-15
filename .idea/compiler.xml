@@ -2,7 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="backend" target="11" />
       <module name="net.slingray.Slingray" target="11" />
       <module name="net.slingray.Slingray.main" target="11" />
       <module name="net.slingray.Slingray.test" target="11" />
