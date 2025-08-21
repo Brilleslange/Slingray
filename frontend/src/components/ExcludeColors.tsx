@@ -1,13 +1,21 @@
-const ColorExclude = ({expansions, colors}) => {
-    const isAllowedColor = (color) => colors || (Boolean(expansions?.pok) && POK_COLORS.has(color))
-    const allowedColors = Array.from(COLORS).filter(isAllowedColor);
+import type {Color} from "../types/color.ts";
+import * as React from "react";
+import {type ChangeEvent} from "react";
 
-    const mirrorCheck = (e) => {
+type Props = {
+    expansionStates: Map<string, boolean>,
+    colors: Color[]
+}
+
+export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
+    const allowedColors = Array.from(colors).filter(color => expansionStates.get(color.expansion));
+
+    const mirrorCheck = (e: ChangeEvent) => {
         const id = e.currentTarget.id;
         const oppositeId = id.split("-").reverse().join("-");
         if (id !== oppositeId) {
-            const opposite = document.getElementById(oppositeId);
-            opposite.checked = e.currentTarget.checked;
+            const opposite = document.getElementById(oppositeId) as HTMLInputElement;
+            opposite.checked = (e.currentTarget as HTMLInputElement).checked;
         }
     }
 
@@ -22,21 +30,21 @@ const ColorExclude = ({expansions, colors}) => {
                 <tr>
                     <th/>
                     {allowedColors.map(color =>
-                        <th key={color} scope={"col"}>{color}</th>)
+                        <th key={color.color} scope={"col"}>{color.color}</th>)
                     }
                 </tr>
                 </thead>
                 <tbody>
                 {allowedColors.map(firstColor =>
-                    <tr key={firstColor}>
-                        <th scope={"row"}>{firstColor}</th>
+                    <tr key={firstColor.color}>
+                        <th scope={"row"}>{firstColor.color}</th>
                         {allowedColors.map(secondColor =>
-                            <td key={secondColor}>
+                            <td key={secondColor.color}>
                                 <input
                                     type={"checkbox"}
                                     className={"checkbox"}
                                     name={"color_exclude"}
-                                    id={`${firstColor.toLowerCase()}-${secondColor.toLowerCase()}`}
+                                    id={`${firstColor.color.toLowerCase()}-${secondColor.color.toLowerCase()}`}
                                     onChange={mirrorCheck}
                                 />
                             </td>)}
@@ -46,5 +54,3 @@ const ColorExclude = ({expansions, colors}) => {
         </div>
     </div>
 }
-
-export default ColorExclude;

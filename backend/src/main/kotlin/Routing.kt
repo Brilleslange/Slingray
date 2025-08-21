@@ -10,24 +10,24 @@ import net.slingray.model.factionComparator
 
 fun Application.configureRouting() {
     routing {
+        route("/api") {
+            route("/colors") {
+                get {
+                    call.respond(Color.entries.toList())
+                }
+            }
+            route("/factions") {
+                get {
+                    call.respond(Faction.entries.toList().sortedWith(factionComparator))
+                }
+            }
+        }
+
         singlePageApplication {
             filesPath = "frontend/build"
             useResources = true
             applicationRoute = "/"
             defaultPage = "index.html"
-        }
-
-        route("/api") {
-            route("/colors") {
-                get {
-                    call.respond(Color.entries)
-                }
-            }
-            route("/factions") {
-                get {
-                    call.respond(Faction.entries.sortedWith(factionComparator))
-                }
-            }
         }
     }
 }

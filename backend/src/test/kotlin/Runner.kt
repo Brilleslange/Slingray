@@ -1,11 +1,11 @@
 import kotlinx.serialization.json.Json
 import net.slingray.model.Color.*
 import net.slingray.model.Faction.*
-import net.slingray.model.Scores
+import net.slingray.model.Scoring
 
 fun main() {
     val scores = listOf(
-        Scores(
+        Scoring(
             faction = ARBOREC,
             scores = mapOf(
                 RED to 1,
@@ -18,7 +18,7 @@ fun main() {
                 BLACK to 2
             )
         ),
-        Scores(
+        Scoring(
             faction = ARGENT,
             scores = mapOf(
                 RED to 2,
@@ -31,7 +31,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = BARONY,
             scores = mapOf(
                 RED to 8,
@@ -44,7 +44,7 @@ fun main() {
                 BLACK to 9
             )
         ),
-        Scores(
+        Scoring(
             faction = SAAR,
             scores = mapOf(
                 RED to 1,
@@ -57,7 +57,7 @@ fun main() {
                 BLACK to 2
             )
         ),
-        Scores(
+        Scoring(
             faction = MUAAT,
             scores = mapOf(
                 RED to 8,
@@ -70,7 +70,7 @@ fun main() {
                 BLACK to 4
             )
         ),
-        Scores(
+        Scoring(
             faction = HACAN,
             scores = mapOf(
                 RED to 4,
@@ -83,7 +83,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = EMPYREAN,
             scores = mapOf(
                 RED to 7,
@@ -96,7 +96,7 @@ fun main() {
                 BLACK to 5
             )
         ),
-        Scores(
+        Scoring(
             faction = SOL,
             scores = mapOf(
                 RED to 2,
@@ -109,7 +109,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = GHOSTS,
             scores = mapOf(
                 RED to 0,
@@ -122,7 +122,7 @@ fun main() {
                 BLACK to 7
             )
         ),
-        Scores(
+        Scoring(
             faction = L1Z1X,
             scores = mapOf(
                 RED to 8,
@@ -135,7 +135,7 @@ fun main() {
                 BLACK to 8
             )
         ),
-        Scores(
+        Scoring(
             faction = MAHACT,
             scores = mapOf(
                 RED to 1,
@@ -148,7 +148,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = MENTAK,
             scores = mapOf(
                 RED to 0,
@@ -161,7 +161,7 @@ fun main() {
                 BLACK to 8
             )
         ),
-        Scores(
+        Scoring(
             faction = NAALU,
             scores = mapOf(
                 RED to 0,
@@ -174,7 +174,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = NAAZ_ROKHA,
             scores = mapOf(
                 RED to 1,
@@ -187,7 +187,7 @@ fun main() {
                 BLACK to 2
             )
         ),
-        Scores(
+        Scoring(
             faction = NEKRO,
             scores = mapOf(
                 RED to 10,
@@ -200,7 +200,7 @@ fun main() {
                 BLACK to 4
             )
         ),
-        Scores(
+        Scoring(
             faction = NOMAD,
             scores = mapOf(
                 RED to 1,
@@ -213,7 +213,7 @@ fun main() {
                 BLACK to 4
             )
         ),
-        Scores(
+        Scoring(
             faction = SARDAKK,
             scores = mapOf(
                 RED to 9,
@@ -226,7 +226,7 @@ fun main() {
                 BLACK to 8
             )
         ),
-        Scores(
+        Scoring(
             faction = TITANS,
             scores = mapOf(
                 RED to 0,
@@ -239,7 +239,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = JOL_NAR,
             scores = mapOf(
                 RED to 0,
@@ -252,7 +252,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = VUIL_RAITH,
             scores = mapOf(
                 RED to 10,
@@ -265,7 +265,7 @@ fun main() {
                 BLACK to 6
             )
         ),
-        Scores(
+        Scoring(
             faction = WINNU,
             scores = mapOf(
                 RED to 6,
@@ -278,7 +278,7 @@ fun main() {
                 BLACK to 1
             )
         ),
-        Scores(
+        Scoring(
             faction = XXCHA,
             scores = mapOf(
                 RED to 0,
@@ -291,7 +291,7 @@ fun main() {
                 BLACK to 2
             )
         ),
-        Scores(
+        Scoring(
             faction = YIN,
             scores = mapOf(
                 RED to 0,
@@ -304,7 +304,7 @@ fun main() {
                 BLACK to 5
             )
         ),
-        Scores(
+        Scoring(
             faction = YSSARIL,
             scores = mapOf(
                 RED to 7,
