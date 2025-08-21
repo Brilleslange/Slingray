@@ -24,20 +24,6 @@ enum class Color(val color: String, val expansion: Expansion) {
     BLACK("Black", BASE)
 }
 
-object ColorStringSerializer : KSerializer<Color> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Color", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: Color) {
-        encoder.encodeString(value.color)
-    }
-
-    override fun deserialize(decoder: Decoder): Color {
-        val value = decoder.decodeString()
-        return Color.entries.firstOrNull { it.color.lowercase() == value.lowercase() }
-            ?: throw IllegalArgumentException("Unknown color: $value")
-    }
-}
-
 object ColorObjectSerializer : KSerializer<Color> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Color") {
         element<String>("color")
@@ -47,8 +33,22 @@ object ColorObjectSerializer : KSerializer<Color> {
     override fun serialize(encoder: Encoder, value: Color) {
         val composite = encoder.beginStructure(descriptor)
         composite.encodeStringElement(descriptor, 0, value.color)
-        composite.encodeSerializableElement(descriptor, 1, ExpansionSerializer, value.expansion)
+        composite.encodeSerializableElement(descriptor, 1, ExpansionStringSerializer, value.expansion)
         composite.endStructure(descriptor)
+    }
+
+    override fun deserialize(decoder: Decoder): Color {
+        val value = decoder.decodeString()
+        return Color.entries.firstOrNull { it.color.lowercase() == value.lowercase() }
+            ?: throw IllegalArgumentException("Unknown color: $value")
+    }
+}
+
+object ColorStringSerializer : KSerializer<Color> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Color", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: Color) {
+        encoder.encodeString(value.color)
     }
 
     override fun deserialize(decoder: Decoder): Color {

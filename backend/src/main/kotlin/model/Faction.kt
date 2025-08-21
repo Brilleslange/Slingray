@@ -59,7 +59,7 @@ object FactionSerializer : KSerializer<Faction> {
         val composite = encoder.beginStructure(descriptor)
         composite.encodeStringElement(descriptor, 0, value.long)
         composite.encodeStringElement(descriptor, 1, value.short)
-        composite.encodeSerializableElement(descriptor, 2, ExpansionSerializer, value.expansion)
+        composite.encodeSerializableElement(descriptor, 2, ExpansionStringSerializer, value.expansion)
         composite.endStructure(descriptor)
     }
 

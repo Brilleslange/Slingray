@@ -5,6 +5,7 @@ import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import net.slingray.model.Color
+import net.slingray.model.Expansion
 import net.slingray.model.Faction
 import net.slingray.model.factionComparator
 
@@ -14,6 +15,11 @@ fun Application.configureRouting() {
             route("/colors") {
                 get {
                     call.respond(Color.entries.toList())
+                }
+            }
+            route("/expansions") {
+                get {
+                    call.respond(Expansion.entries.toList())
                 }
             }
             route("/factions") {

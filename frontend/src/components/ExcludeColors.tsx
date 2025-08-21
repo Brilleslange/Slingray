@@ -8,14 +8,14 @@ type Props = {
 }
 
 export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
-    const allowedColors = Array.from(colors).filter(color => expansionStates.get(color.expansion));
+    const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
 
-    const mirrorCheck = (e: ChangeEvent) => {
-        const id = e.currentTarget.id;
+    const mirrorCheck = (e: ChangeEvent<HTMLInputElement>) => {
+        const id = e.target.id;
         const oppositeId = id.split("-").reverse().join("-");
         if (id !== oppositeId) {
             const opposite = document.getElementById(oppositeId) as HTMLInputElement;
-            opposite.checked = (e.currentTarget as HTMLInputElement).checked;
+            opposite.checked = e.target.checked;
         }
     }
 
@@ -29,17 +29,31 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
                 <thead className={"vertical-header"}>
                 <tr>
                     <th/>
-                    {allowedColors.map(color =>
-                        <th key={color.color} scope={"col"}>{color.color}</th>)
-                    }
+                    {colors.map(color =>
+                        <th
+                            key={color.color}
+                            scope={"col"}
+                            style={isAllowedColor(color) ? undefined : {display: "none"}}
+                        >
+                            {color.color}
+                        </th>
+                    )}
                 </tr>
                 </thead>
                 <tbody>
-                {allowedColors.map(firstColor =>
-                    <tr key={firstColor.color}>
-                        <th scope={"row"}>{firstColor.color}</th>
-                        {allowedColors.map(secondColor =>
-                            <td key={secondColor.color}>
+                {colors.map(firstColor =>
+                    <tr
+                        key={firstColor.color}
+                        style={isAllowedColor(firstColor) ? undefined : {display: "none"}}
+                    >
+                        <th scope={"row"}>
+                            {firstColor.color}
+                        </th>
+                        {colors.map(secondColor =>
+                            <td
+                                key={secondColor.color}
+                                style={isAllowedColor(secondColor) ? undefined : {display: "none"}}
+                            >
                                 <input
                                     type={"checkbox"}
                                     className={"checkbox"}
