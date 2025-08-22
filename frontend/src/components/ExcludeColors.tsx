@@ -25,7 +25,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
             Exclude colors
         </div>
         <div className={"collapse-content"}>
-            <table>
+            <table className={"table"}>
                 <thead className={"vertical-header"}>
                 <tr>
                     <th/>

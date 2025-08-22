@@ -9,6 +9,7 @@ import {ExcludeColors} from "./components/ExcludeColors.tsx";
 import {Options} from "./components/Options.tsx";
 import type {Expansion} from "./types/expansion.ts";
 import {Factions} from "./components/Factions.tsx";
+import {Scores} from "./components/Scores.tsx";
 
 function App() {
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
@@ -17,37 +18,42 @@ function App() {
     const [factions, setFactions] = useState<Faction[]>([])
     const [selectedFactions, setSelectedFactions] = useState<string[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
+    const [initialized, setInitialized] = useState(false)
 
     useEffect(() => {
-        fetch("/api/expansions")
-            .then(res => res.json())
-            .then(data => {
-                setExpansions(data)
-                setExpansionStates(new Map(data.map((e: Expansion) =>
-                    e.short === "base"
-                        ? [e.short, true]
-                        : [e.short, localStorage.getItem(`expansions.${e.short}`) !== "false"]
-                )))
-            })
-    }, [])
-    useEffect(() => {
-        fetch("/api/colors")
-            .then(res => res.json())
-            .then(data => setColors(data))
-    }, [])
-    useEffect(() => {
-        fetch("/api/factions")
-            .then(res => res.json())
-            .then(data => setFactions(data))
-    }, [])
-    useEffect(() => {
-        const scoringFromLocalStorage = localStorage.getItem("scoring")
-        if (scoringFromLocalStorage === null) {
-            setScoring(defaultScoring as Scoring[])
-        } else {
-            setScoring(JSON.parse(scoringFromLocalStorage))
+        Promise.all([
+            fetch("/api/expansions").then(res => res.json()),
+            fetch("/api/colors").then(res => res.json()),
+            fetch("/api/factions").then(res => res.json())
+        ]).then(([expansions, colors, factions]) => {
+            setExpansions(expansions)
+            setExpansionStates(new Map(expansions.map((e: Expansion) =>
+                e.short === "base"
+                    ? [e.short, true]
+                    : [e.short, localStorage.getItem(`expansions.${e.short}`) !== "false"]
+            )))
+            setColors(colors)
+            setFactions(factions)
+        })
+
+        try {
+            const scoringFromLocalStorage = localStorage.getItem("scoring");
+            setScoring(scoringFromLocalStorage
+                ? JSON.parse(scoringFromLocalStorage)
+                : defaultScoring
+            );
+        } catch {
+            setScoring(defaultScoring);
         }
+
+        setInitialized(true)
     }, [])
+
+    useEffect(() => {
+        if (initialized) {
+            localStorage.setItem("scoring", JSON.stringify(scoring))
+        }
+    }, [initialized, scoring]);
 
     return (
         <>
@@ -66,6 +72,13 @@ function App() {
             <ExcludeColors
                 expansionStates={expansionStates}
                 colors={colors}
+            />
+            <Scores
+                expansionStates={expansionStates}
+                colors={colors}
+                factions={factions}
+                scoring={scoring}
+                setScoring={setScoring}
             />
         </>
     )

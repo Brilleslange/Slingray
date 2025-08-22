@@ -2,6 +2,8 @@ package net.slingray.model
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
@@ -14,7 +16,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import net.slingray.model.Expansion.BASE
 import net.slingray.model.Expansion.POK
 
-@Serializable(with = FactionSerializer::class)
+@Serializable(with = FactionObjectSerializer::class)
 enum class Faction(val long: String, val short: String, val expansion: Expansion) : Comparable<Faction> {
     ARBOREC("The Arborec", "arborec", BASE),
     ARGENT("The Argent Flight", "argent", POK),
@@ -48,7 +50,7 @@ val factionComparator = Comparator<Faction> { f1, f2 ->
     )
 }
 
-object FactionSerializer : KSerializer<Faction> {
+object FactionObjectSerializer : KSerializer<Faction> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Faction") {
         element<String>("long")
         element<String>("short")
@@ -85,5 +87,19 @@ object FactionSerializer : KSerializer<Faction> {
         } else {
             throw IllegalStateException("FactionSerializer only works with JSON")
         }
+    }
+}
+
+object FactionStringSerializer : KSerializer<Faction> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Faction", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: Faction) {
+        encoder.encodeString(value.short)
+    }
+
+    override fun deserialize(decoder: Decoder): Faction {
+        val value = decoder.decodeString()
+        return Faction.entries.firstOrNull { it.short == value }
+            ?: throw IllegalArgumentException("Unknown faction: $value")
     }
 }

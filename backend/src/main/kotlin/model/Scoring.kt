@@ -7,6 +7,7 @@ import kotlinx.serialization.builtins.serializer
 
 @Serializable
 data class Scoring(
+    @Serializable(with = FactionStringSerializer::class)
     val faction: Faction,
     @Serializable(with = ScoreSerializer::class)
     val scores: Map<Color, Int>

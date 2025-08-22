@@ -1,6 +1,4 @@
-import type {Faction} from "./faction.ts";
-
 export type Scoring = {
-    faction: Faction;
+    faction: string;
     scores: { [color: string]: number };
 };
