@@ -33,7 +33,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
                         <th
                             key={color.color}
                             scope={"col"}
-                            style={isAllowedColor(color) ? undefined : {display: "none"}}
+                            className={isAllowedColor(color) ? undefined : "hidden"}
                         >
                             {color.color}
                         </th>
@@ -44,7 +44,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
                 {colors.map(firstColor =>
                     <tr
                         key={firstColor.color}
-                        style={isAllowedColor(firstColor) ? undefined : {display: "none"}}
+                        className={isAllowedColor(firstColor) ? undefined : "hidden"}
                     >
                         <th scope={"row"}>
                             {firstColor.color}
@@ -52,7 +52,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
                         {colors.map(secondColor =>
                             <td
                                 key={secondColor.color}
-                                style={isAllowedColor(secondColor) ? undefined : {display: "none"}}
+                                className={isAllowedColor(secondColor) ? undefined : "hidden"}
                             >
                                 <input
                                     type={"checkbox"}

@@ -8,12 +8,14 @@ import defaultScoring from "./assets/defaultscoring.json";
 import {ExcludeColors} from "./components/ExcludeColors.tsx";
 import {Options} from "./components/Options.tsx";
 import type {Expansion} from "./types/expansion.ts";
+import {Factions} from "./components/Factions.tsx";
 
 function App() {
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
     const [expansions, setExpansions] = useState<Expansion[]>([])
     const [colors, setColors] = useState<Color[]>([])
     const [factions, setFactions] = useState<Faction[]>([])
+    const [selectedFactions, setSelectedFactions] = useState<string[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
 
     useEffect(() => {
@@ -41,10 +43,8 @@ function App() {
     useEffect(() => {
         const scoringFromLocalStorage = localStorage.getItem("scoring")
         if (scoringFromLocalStorage === null) {
-            console.log("Scoring from defaultScoring: " + defaultScoring)
             setScoring(defaultScoring as Scoring[])
         } else {
-            console.log("Scoring from local storage: " + scoringFromLocalStorage)
             setScoring(JSON.parse(scoringFromLocalStorage))
         }
     }, [])
@@ -56,6 +56,12 @@ function App() {
                 expansions={expansions}
                 expansionStates={expansionStates}
                 setExpansionStates={setExpansionStates}
+            />
+            <Factions
+                expansionStates={expansionStates}
+                factions={factions}
+                selectedFactions={selectedFactions}
+                setSelectedFactions={setSelectedFactions}
             />
             <ExcludeColors
                 expansionStates={expansionStates}

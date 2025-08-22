@@ -25,7 +25,7 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
             Options
         </div>
         <div className={"collapse-content"}>
-            <div style={{display: "flex"}}>
+            <div className={"flex"}>
                 <div className={"card"}>
                     <div className={"card-body"}>
                         <h3 className={"card-title"}>Expansions</h3>
