@@ -25,46 +25,51 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
             Exclude colors
         </div>
         <div className={"collapse-content"}>
-            <table className={"table"}>
-                <thead className={"vertical-header"}>
-                <tr>
-                    <th/>
-                    {colors.map(color =>
-                        <th
-                            key={color.color}
-                            scope={"col"}
-                            className={isAllowedColor(color) ? undefined : "hidden"}
-                        >
-                            {color.color}
-                        </th>
-                    )}
-                </tr>
-                </thead>
-                <tbody>
-                {colors.map(firstColor =>
-                    <tr
-                        key={firstColor.color}
-                        className={isAllowedColor(firstColor) ? undefined : "hidden"}
-                    >
-                        <th scope={"row"}>
-                            {firstColor.color}
-                        </th>
-                        {colors.map(secondColor =>
-                            <td
-                                key={secondColor.color}
-                                className={isAllowedColor(secondColor) ? undefined : "hidden"}
+            { colors.length === 0
+                ? <div className={"alert alert-error"}>Error: Colors could not be loaded.</div>
+                : <>
+                    <table className={"table"}>
+                        <thead className={"vertical-header"}>
+                        <tr>
+                            <th/>
+                            {colors.map(color =>
+                                <th
+                                    key={color.color}
+                                    scope={"col"}
+                                    className={isAllowedColor(color) ? undefined : "hidden"}
+                                >
+                                    {color.color}
+                                </th>
+                            )}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {colors.map(firstColor =>
+                            <tr
+                                key={firstColor.color}
+                                className={isAllowedColor(firstColor) ? undefined : "hidden"}
                             >
-                                <input
-                                    type={"checkbox"}
-                                    className={"checkbox"}
-                                    name={"color_exclude"}
-                                    id={`${firstColor.color.toLowerCase()}-${secondColor.color.toLowerCase()}`}
-                                    onChange={mirrorCheck}
-                                />
-                            </td>)}
-                    </tr>)}
-                </tbody>
-            </table>
+                                <th scope={"row"}>
+                                    {firstColor.color}
+                                </th>
+                                {colors.map(secondColor =>
+                                    <td
+                                        key={secondColor.color}
+                                        className={isAllowedColor(secondColor) ? undefined : "hidden"}
+                                    >
+                                        <input
+                                            type={"checkbox"}
+                                            className={"checkbox"}
+                                            name={"color_exclude"}
+                                            id={`${firstColor.color.toLowerCase()}-${secondColor.color.toLowerCase()}`}
+                                            onChange={mirrorCheck}
+                                        />
+                                    </td>)}
+                            </tr>)}
+                        </tbody>
+                    </table>
+            </>
+            }
         </div>
     </div>
 }

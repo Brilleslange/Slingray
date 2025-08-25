@@ -25,8 +25,9 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
             Options
         </div>
         <div className={"collapse-content"}>
+            { expansions.length === 0 && <div className={"alert alert-error"}>Error: Expansions could not be loaded.</div> }
             <div className={"flex"}>
-                <div className={"card"}>
+                { expansions.length > 0 && <div className={"card"}>
                     <div className={"card-body"}>
                         <h3 className={"card-title"}>Expansions</h3>
                         <div className={"card-body"}>
@@ -51,7 +52,7 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
         </div>
     </div>)
