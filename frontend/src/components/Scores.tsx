@@ -2,7 +2,6 @@ import * as React from "react";
 import type {Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
-import defaultScoring from "../assets/defaultscoring.json";
 
 type Props = {
     expansionStates: Map<string, boolean>,
@@ -40,6 +39,12 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
 
         setScoring(newScoring)
         setEditing(false)
+    }
+
+    function resetScoring() {
+        fetch("/api/scoring").then(res => res.json()).then(defaultScoring => {
+            setScoring(defaultScoring as Scoring[])
+        })
     }
 
     return (<div className={"collapse collapse-arrow bg-base-300"}>
@@ -113,7 +118,7 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                                 </button>
                                 <button
                                     className={"btn btn-secondary"}
-                                    onClick={_ => setScoring(defaultScoring as Scoring[])}
+                                    onClick={_ => resetScoring()}
                                 >
                                     Restore default
                                 </button>

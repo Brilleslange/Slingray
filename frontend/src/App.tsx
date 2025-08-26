@@ -18,7 +18,6 @@ function App() {
     const [factions, setFactions] = useState<Faction[]>([])
     const [selectedFactions, setSelectedFactions] = useState<string[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
-    const [initialized, setInitialized] = useState(false)
 
     useEffect(() => {
         Promise.all([
@@ -26,35 +25,43 @@ function App() {
             fetch("/api/colors").then(res => res.json()),
             fetch("/api/factions").then(res => res.json()),
             fetch("/api/scoring").then(res => res.json()),
-        ]).then(([expansions, colors, factions, defaultScoring]) => {
-            setExpansions(expansions)
-            setExpansionStates(new Map(expansions.map((e: Expansion) =>
+        ]).then(([retrievedExpansions, retrievedColors, retrievedFactions, defaultScoring]) => {
+            setExpansions(retrievedExpansions)
+            setExpansionStates(new Map(retrievedExpansions.map((e: Expansion) =>
                 e.short === "base"
                     ? [e.short, true]
                     : [e.short, localStorage.getItem(`expansions.${e.short}`) !== "false"]
             )))
-            setColors(colors)
-            setFactions(factions)
+            setColors(retrievedColors)
+            setFactions(retrievedFactions)
+
+            function isValidScoring(retrievedScoring: Scoring[]): boolean {
+                if (retrievedScoring.length !== retrievedFactions.length) return false;
+                if (!retrievedScoring.every(s => Object.keys(s.scores).length === retrievedColors.length)) return false;
+                if (!retrievedScoring.every(s => retrievedFactions.some((f: Faction) => f.short === s.faction))) return false;
+                if (!retrievedScoring.every(s => Object.keys(s.scores).every(c => retrievedColors.some((col: Color) => col.color === c)))) return false;
+                return true;
+            }
 
             try {
                 const scoringFromLocalStorage = localStorage.getItem("scoring");
-                setScoring(scoringFromLocalStorage
-                    ? JSON.parse(scoringFromLocalStorage)
-                    : defaultScoring
-                );
+                if (scoringFromLocalStorage) {
+                    const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
+                    if (isValidScoring(parsedScoring)) {
+                        setScoring(parsedScoring);
+                        return;
+                    }
+                }
+                setScoring(defaultScoring);
             } catch {
                 setScoring(defaultScoring);
             }
         })
-
-        setInitialized(true)
     }, [])
 
     useEffect(() => {
-        if (initialized) {
-            localStorage.setItem("scoring", JSON.stringify(scoring))
-        }
-    }, [initialized, scoring]);
+        localStorage.setItem("scoring", JSON.stringify(scoring))
+    }, [scoring]);
 
     return (
         <div className="flex flex-col h-full">
