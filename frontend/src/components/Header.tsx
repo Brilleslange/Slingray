@@ -1,9 +1,11 @@
+import SlingrayLogo from '../assets/slingray.svg?react';
+
 export default function Header() {
     return (
         <header>
             <div className="navbar">
                 <div>
-                    <img className="size-32" src="/src/assets/slingray.jpg" alt="Slingray logo" />
+                    <SlingrayLogo className="size-32" />
                 </div>
                 <div>
                     <h1>Slingray</h1>
