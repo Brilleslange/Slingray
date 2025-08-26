@@ -42,7 +42,7 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
         setEditing(false)
     }
 
-    return (<div className={"collapse collapse-arrow"}>
+    return (<div className={"collapse collapse-arrow bg-base-300"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
             Scoring

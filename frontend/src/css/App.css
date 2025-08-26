@@ -3,6 +3,11 @@
     themes: synthwave;
 }
 
+html, body, #root {
+    height: 100%;
+    margin: 0;
+}
+
 thead.vertical-header tr th {
     writing-mode: vertical-lr;
 }

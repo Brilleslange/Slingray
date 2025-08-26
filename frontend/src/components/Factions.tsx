@@ -45,7 +45,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
         setSelectedFactions(randomizedFactions.slice(0, count))
     }
 
-    return (<div className={"collapse collapse-arrow"}>
+    return (<div className={"collapse collapse-arrow bg-base-300"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
             Factions

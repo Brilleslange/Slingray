@@ -19,7 +19,7 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
         })
     }
 
-    return (<div className={"collapse collapse-arrow"}>
+    return (<div className={"collapse collapse-arrow bg-base-300"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
             Options

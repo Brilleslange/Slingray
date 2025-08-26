@@ -2,18 +2,10 @@ import SlingrayLogo from '../assets/slingray.svg?react';
 
 export default function Header() {
     return (
-        <header>
-            <div className="navbar">
-                <div>
-                    <SlingrayLogo className="size-32" />
-                </div>
-                <div>
-                    <h1>Slingray</h1>
-                </div>
-                <div>
-                    <h2>Twilight Imperium 4th Edition Color Assigner</h2>
-                </div>
-            </div>
+        <header className={"flex items-center gap-4 p-4"}>
+            <SlingrayLogo className="size-28" />
+            <h1 className={"text-6xl grow"}>Slingray</h1>
+            <h2 className={"text-3xl"}>Twilight Imperium 4th Edition Color Assigner</h2>
         </header>
     )
 }

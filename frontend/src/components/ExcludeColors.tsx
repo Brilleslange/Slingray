@@ -19,7 +19,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
         }
     }
 
-    return <div className={"collapse collapse-arrow"}>
+    return <div className={"collapse collapse-arrow bg-base-300"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
             Exclude colors

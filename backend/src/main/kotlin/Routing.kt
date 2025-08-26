@@ -4,6 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import net.slingray.constants.defaultScores
 import net.slingray.model.Color
 import net.slingray.model.Expansion
 import net.slingray.model.Faction
@@ -25,6 +26,11 @@ fun Application.configureRouting() {
             route("/factions") {
                 get {
                     call.respond(Faction.entries.toList().sortedWith(factionComparator))
+                }
+            }
+            route("/scoring") {
+                get {
+                    call.respond(defaultScores.sortedWith { a, b -> factionComparator.compare(a.faction, b.faction) })
                 }
             }
         }
