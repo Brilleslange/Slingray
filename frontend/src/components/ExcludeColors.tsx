@@ -1,7 +1,7 @@
 import type {Color} from "../types/color.ts";
 import * as React from "react";
 import {type ChangeEvent} from "react";
-import {COLOR_CLASS_MAP, type Highlight} from "../styling/TableHighlighting.ts"
+import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts"
 
 type Props = {
     expansionStates: Map<string, boolean>,
@@ -52,7 +52,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                                 <th/>
                                 {colors.map((color, colorIndex) => {
                                     const isHighlighted = highlight.col === colorIndex
-                                    const highlightColor = COLOR_CLASS_MAP[color.color] ?? ""
+                                    const highlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.color] ?? ""
 
                                     return <th
                                         key={color.color}
@@ -67,7 +67,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                             </tr>
                             {colors.map((rowColor, rowIndex) => {
                                 const isRowHighlighted = highlight.row === rowIndex
-                                const rowHighlightColor = COLOR_CLASS_MAP[rowColor.color] ?? ""
+                                const rowHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[rowColor.color] ?? ""
 
                                 return <tr
                                     key={rowColor.color}
@@ -83,7 +83,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                                     </th>
                                     {colors.map((colColor, colIndex) => {
                                         const isColHighlighted = highlight.col === colIndex
-                                        const colHighlightColor = COLOR_CLASS_MAP[colColor.color] ?? ""
+                                        const colHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[colColor.color] ?? ""
 
                                         return <td
                                             key={colColor.color}

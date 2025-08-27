@@ -12,12 +12,14 @@ fun Application.configureHTTP() {
     }
     install(CORS) {
         allowMethod(HttpMethod.Options)
-        allowMethod(HttpMethod.Put)
-        allowMethod(HttpMethod.Delete)
-        allowMethod(HttpMethod.Patch)
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Get)
         allowHeader(HttpHeaders.Authorization)
+        allowHeader(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.Accept)
+
         allowHeader("MyCustomHeader")
-        anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+        allowHost("localhost:5173", schemes = listOf("http", "https"))
     }
     install(Compression)
 }

@@ -2,6 +2,8 @@ package net.slingray.model
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
 import kotlinx.serialization.encoding.Decoder
@@ -9,11 +11,14 @@ import kotlinx.serialization.encoding.Encoder
 
 @Serializable
 data class Request(
+    @Serializable(with = ExpansionStateSerializer::class)
     val expansionStates: Map<Expansion, Boolean>,
     val factions: List<Faction>,
     val excludedColors: List<ColorPair>,
     val scoring: List<Scoring>
 )
+
+object ExpansionStateSerializer : KSerializer<Map<Expansion, Boolean>> by MapSerializer(ExpansionStringSerializer, Boolean.serializer())
 
 @Serializable(with = ColorPairSerializer::class)
 data class ColorPair(

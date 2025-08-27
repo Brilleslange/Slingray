@@ -1,20 +1,16 @@
 import * as React from "react";
-import type {Color} from "../types/color";
-import type {Faction} from "../types/faction";
 import type {Scoring} from "../types/scoring";
 import type {Assignment} from "../types/assignment";
-import {COLOR_CLASS_MAP} from "../styling/TableHighlighting";
+import {COLOR_CLASS_MAP_OPAQUE} from "../styling/TableHighlighting";
 
 type Props = {
     expansionStates: Map<string, boolean>,
-    colors: Color[],
     excludedColors: string[],
-    factions: Faction[],
     selectedFactions: string[],
     scoring: Scoring[]
 }
 
-export const Results: React.FC<Props> = ({expansionStates, colors, excludedColors, factions, selectedFactions, scoring}) => {
+export const Results: React.FC<Props> = ({expansionStates, excludedColors, selectedFactions, scoring}) => {
     const [results, setResults] = React.useState<Assignment[]>([]);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState("");
@@ -26,7 +22,7 @@ export const Results: React.FC<Props> = ({expansionStates, colors, excludedColor
 
         try {
             const payload = {
-                expansionStates: expansionStates,
+                expansionStates: Object.fromEntries(expansionStates),
                 factions: selectedFactions,
                 excludedColors: excludedColors,
                 scoring: scoring
@@ -41,7 +37,7 @@ export const Results: React.FC<Props> = ({expansionStates, colors, excludedColor
             })
 
             if (!res.ok) {
-                setError(await res.text());
+                setError(await res.text() ?? res.statusText);
             } else {
                 setResults(await res.json());
             }
@@ -66,11 +62,11 @@ export const Results: React.FC<Props> = ({expansionStates, colors, excludedColor
                 { results.length > 0 &&
                     <div className={"grid grid-cols-[max-content_auto_max-content] justify-center gap-4 w-full"}>
                         {results.map(assignment => {
-                            const colorClass = COLOR_CLASS_MAP[assignment.color].substring(0, COLOR_CLASS_MAP[assignment.color].length - 3) ?? ""
+                            const colorClass = COLOR_CLASS_MAP_OPAQUE[assignment.color] ?? ""
 
                             return <>
                                 <div>{assignment.faction.long}</div>
-                                <div className={colorClass}></div>
+                                <div className={"badge " + colorClass}></div>
                                 <div>{assignment.color}</div>
                             </>
                         })}

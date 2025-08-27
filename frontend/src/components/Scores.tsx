@@ -2,7 +2,7 @@ import * as React from "react";
 import type {Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
-import {COLOR_CLASS_MAP, type Highlight} from "../styling/TableHighlighting";
+import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting";
 
 type Props = {
     expansionStates: Map<string, boolean>,
@@ -65,7 +65,7 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                                 <th></th>
                                 {colors.map((color, colorIndex) => {
                                     const isHighlighted = highlight.col === colorIndex
-                                    const highlightColor = COLOR_CLASS_MAP[color.color] ?? ""
+                                    const highlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.color] ?? ""
 
                                     return <th
                                         key={color.color.toLowerCase()}
@@ -96,7 +96,7 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                                     </th>
                                     {colors.map((color, colIndex) => {
                                         const isColHighlighted = highlight.col === colIndex
-                                        const colHighlightColor = COLOR_CLASS_MAP[color.color] ?? ""
+                                        const colHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.color] ?? ""
 
                                         return <td
                                             key={color.color.toLowerCase()}

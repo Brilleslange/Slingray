@@ -71,9 +71,7 @@ function App() {
             <div className={"flex flex-col gap-2 ml-6 mr-6 grow"}>
                 <Results
                     expansionStates={expansionStates}
-                    colors={colors}
                     excludedColors={excludedColors}
-                    factions={factions}
                     selectedFactions={selectedFactions}
                     scoring={scoring}
                 />
