@@ -53,8 +53,8 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
         <div className={"collapse-content"}>
             {factions.length === 0
                 ? <div className={"alert alert-error"}>Error: Factions could not be loaded.</div>
-                : <>
-                    <div className={"grid w-full gap-2 [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]"}>
+                : <div className={"flex flex-col gap-4 p-4"}>
+                    <div className={"grid w-full gap-3 [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]"}>
                         {factions.map(faction =>
                             <label
                                 className={`label ${expansionStates.get(faction.expansion) ? "" : "hidden"}`}
@@ -73,7 +73,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                         )}
                     </div>
                     <form
-                        className={"flex"}
+                        className={"flex gap-1"}
                         onSubmit={(e) => {
                             e.preventDefault()
                             randomizeFactions()
@@ -81,7 +81,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                     >
                         <input
                             type={"number"}
-                            className={"input"}
+                            className={"input w-20 bg-base-200"}
                             name={"random-count"}
                             min={0}
                             max={availableFactions.length}
@@ -97,12 +97,12 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                         >
                             <input
                                 type={"submit"}
-                                className={"btn"}
+                                className={"btn btn-neutral"}
                                 value={"Randomize factions"}
                             />
                         </div>
                     </form>
-                </>
+                </div>
             }
         </div>
     </div>)
