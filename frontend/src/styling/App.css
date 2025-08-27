@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: synthwave;
+}
+
+html, body, #root {
+    height: 100%;
+    margin: 0;
+}
+
+tr.vertical-header th {
+    writing-mode: vertical-lr;
+    rotate: 180deg;
+}
