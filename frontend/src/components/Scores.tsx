@@ -2,6 +2,7 @@ import * as React from "react";
 import type {Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
+import {COLOR_CLASS_MAP, type Highlight} from "../util/TableHighlighting";
 
 type Props = {
     expansionStates: Map<string, boolean>,
@@ -12,6 +13,8 @@ type Props = {
 }
 
 export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scoring, setScoring}) => {
+    const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
+
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
     const isAllowedFaction = (faction: Faction) => expansionStates.get(faction.expansion);
 
@@ -55,55 +58,89 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
         <div className={"collapse-content"}>
             { (scoring.length === 0 || factions.length === 0 || colors.length === 0)
                 ? <div className={"alert alert-error"}>Error: Scores could not be loaded.</div>
-                : <>
-                    <table className={"table"}>
-                        <thead className={"vertical-header"}>
-                            <tr>
+                : <div className={"flex flex-col items-center"}>
+                    <table className={"table table-auto w-auto"}>
+                        <tbody>
+                            <tr className={"vertical-header"}>
                                 <th></th>
-                                {colors.map(color =>
-                                    <th
+                                {colors.map((color, colorIndex) => {
+                                    const isHighlighted = highlight.col === colorIndex
+                                    const highlightColor = COLOR_CLASS_MAP[color.color] ?? ""
+
+                                    return <th
                                         key={color.color.toLowerCase()}
                                         scope={"col"}
-                                        className={isAllowedColor(color) ? undefined : "hidden"}
+                                        className={`${isAllowedColor(color) ? "" : "hidden"} ${isHighlighted ? highlightColor : ""}`}
+                                        onMouseEnter={() => setHighlight({row: null, col: colorIndex})}
+                                        onMouseLeave={() => setHighlight({row: null, col: null})}
                                     >
                                         {color.color}
                                     </th>
-                                )}
+                                })}
                             </tr>
-                        </thead>
-                        <tbody>
-                            {factions.map(faction =>
-                                <tr className={isAllowedFaction(faction) ? undefined : "hidden"} key={faction.short}>
-                                    <th>{faction.long}</th>
-                                    {colors.map(color =>
-                                        <td className={isAllowedColor(color) ? undefined : "hidden"} key={color.color.toLowerCase()}>
-                                            {editing
-                                                ? (<input
-                                                    type={"number"}
-                                                    id={`${faction.short}-${color.color.toLowerCase()}`}
-                                                    className={"input"}
-                                                    min={0}
-                                                    defaultValue={scoring.find(s => s.faction === faction.short)?.scores[color.color]}
-                                                />)
-                                                : <p>{scoring.find(s => s.faction === faction.short)?.scores[color.color]}</p>
+                            {factions.map((faction, rowIndex) => {
+                                const isRowHighlighted = highlight.row === rowIndex
+                                const rowHighlightColor = "bg-base-content/20"
+
+                                return <tr
+                                    key={faction.short}
+                                    className={isAllowedFaction(faction) ? undefined : "hidden"}
+                                >
+                                    <th
+                                        scope={"row"}
+                                        className={`${isRowHighlighted ? rowHighlightColor : ""}`}
+                                        onMouseEnter={() => setHighlight({row: rowIndex, col: null})}
+                                        onMouseLeave={() => setHighlight({row: null, col: null})}
+                                    >
+                                        {faction.long}
+                                    </th>
+                                    {colors.map((color, colIndex) => {
+                                        const isColHighlighted = highlight.col === colIndex
+                                        const colHighlightColor = COLOR_CLASS_MAP[color.color] ?? ""
+
+                                        return <td
+                                            key={color.color.toLowerCase()}
+                                            className={`relative ${isAllowedColor(color) ? "" : "hidden"} isolate`}
+                                            onMouseEnter={() => setHighlight({row: rowIndex, col: colIndex})}
+                                            onMouseLeave={() => setHighlight({row: null, col: null})}
+                                        >
+                                            {isRowHighlighted &&
+                                                <div className={`absolute inset-0 z-0 ${rowHighlightColor} mix-blend-multiply`} />
                                             }
+                                            {isColHighlighted &&
+                                                <div className={`absolute inset-0 z-0 ${colHighlightColor} mix-blend-multiply`} />
+                                            }
+                                            <div className={"relative z-10"}>
+                                                {editing
+                                                    ? (<input
+                                                        type={"number"}
+                                                        id={`${faction.short}-${color.color.toLowerCase()}`}
+                                                        className={"input w-20 bg-base-200"}
+                                                        min={0}
+                                                        defaultValue={scoring.find(s => s.faction === faction.short)?.scores[color.color]}
+                                                    />)
+                                                    : (<p className={"text-right"}>
+                                                        {scoring.find(s => s.faction === faction.short)?.scores[color.color]}
+                                                    </p>)
+                                                }
+                                            </div>
                                         </td>
-                                    )}
+                                    })}
                                 </tr>
-                            )}
+                            })}
                         </tbody>
                     </table>
-                    <div>
+                    <div className={"flex gap-4 m-4"}>
                         {editing
                             ? (<>
                                 <button
-                                    className={"btn btn-primary"}
+                                    className={"btn btn-neutral"}
                                     onClick={_ => saveScoring()}
                                 >
                                     Save
                                 </button>
                                 <button
-                                    className={"btn btn-secondary"}
+                                    className={"btn"}
                                     onClick={_ => setEditing(false)}
                                 >
                                     Cancel
@@ -111,13 +148,13 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                             </>)
                             : (<>
                                 <button
-                                    className={"btn btn-primary"}
+                                    className={"btn btn-neutral"}
                                     onClick={_ => setEditing(true)}
                                 >
                                     Edit
                                 </button>
                                 <button
-                                    className={"btn btn-secondary"}
+                                    className={"btn"}
                                     onClick={_ => resetScoring()}
                                 >
                                     Restore default
@@ -125,7 +162,7 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                             </>)
                         }
                     </div>
-                </>
+                </div>
             }
         </div>
     </div>)

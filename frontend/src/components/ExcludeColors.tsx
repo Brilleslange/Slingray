@@ -1,26 +1,11 @@
 import type {Color} from "../types/color.ts";
 import * as React from "react";
 import {type ChangeEvent} from "react";
-
-const COLOR_CLASS_MAP: Record<string, string> = {
-    "Red": "bg-red-400/20",
-    "Orange": "bg-orange-400/20",
-    "Yellow": "bg-yellow-400/20",
-    "Green": "bg-green-400/20",
-    "Blue": "bg-blue-400/20",
-    "Purple": "bg-purple-400/20",
-    "Pink": "bg-pink-400/20",
-    "Black": "bg-gray-400/20",
-}
+import {COLOR_CLASS_MAP, type Highlight} from "../util/TableHighlighting.ts"
 
 type Props = {
     expansionStates: Map<string, boolean>,
     colors: Color[]
-}
-
-type Highlight = {
-    row: number | null,
-    col: number | null,
 }
 
 export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
