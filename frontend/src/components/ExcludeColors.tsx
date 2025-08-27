@@ -2,12 +2,30 @@ import type {Color} from "../types/color.ts";
 import * as React from "react";
 import {type ChangeEvent} from "react";
 
+const COLOR_CLASS_MAP: Record<string, string> = {
+    "Red": "bg-red-400/20",
+    "Orange": "bg-orange-400/20",
+    "Yellow": "bg-yellow-400/20",
+    "Green": "bg-green-400/20",
+    "Blue": "bg-blue-400/20",
+    "Purple": "bg-purple-400/20",
+    "Pink": "bg-pink-400/20",
+    "Black": "bg-gray-400/20",
+}
+
 type Props = {
     expansionStates: Map<string, boolean>,
     colors: Color[]
 }
 
+type Highlight = {
+    row: number | null,
+    col: number | null,
+}
+
 export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
+    const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
+
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
 
     const mirrorCheck = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,48 +45,74 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
         <div className={"collapse-content"}>
             { colors.length === 0
                 ? <div className={"alert alert-error"}>Error: Colors could not be loaded.</div>
-                : <>
-                    <table className={"table"}>
-                        <thead className={"vertical-header"}>
-                        <tr>
-                            <th/>
-                            {colors.map(color =>
-                                <th
-                                    key={color.color}
-                                    scope={"col"}
-                                    className={isAllowedColor(color) ? undefined : "hidden"}
-                                >
-                                    {color.color}
-                                </th>
-                            )}
-                        </tr>
-                        </thead>
+                : <div className={"flex justify-center"}>
+                    <table className={"table table-auto w-auto"}>
                         <tbody>
-                        {colors.map(firstColor =>
-                            <tr
-                                key={firstColor.color}
-                                className={isAllowedColor(firstColor) ? undefined : "hidden"}
-                            >
-                                <th scope={"row"}>
-                                    {firstColor.color}
-                                </th>
-                                {colors.map(secondColor =>
-                                    <td
-                                        key={secondColor.color}
-                                        className={isAllowedColor(secondColor) ? undefined : "hidden"}
+                            <tr className={"border-0 vertical-header"}>
+                                <th/>
+                                {colors.map((color, colorIndex) => {
+                                    const isHighlighted = highlight.col === colorIndex
+                                    const highlightColor = COLOR_CLASS_MAP[color.color] ?? ""
+
+                                    return <th
+                                        key={color.color}
+                                        scope={"col"}
+                                        className={`${isAllowedColor(color) ? "" : "hidden"} ${isHighlighted ? highlightColor : ""}`}
+                                        onMouseEnter={() => setHighlight({row: null, col: colorIndex})}
+                                        onMouseLeave={() => setHighlight({row: null, col: null})}
                                     >
-                                        <input
-                                            type={"checkbox"}
-                                            className={"checkbox"}
-                                            name={"color_exclude"}
-                                            id={`${firstColor.color.toLowerCase()}-${secondColor.color.toLowerCase()}`}
-                                            onChange={mirrorCheck}
-                                        />
-                                    </td>)}
-                            </tr>)}
+                                        {color.color}
+                                    </th>
+                                })}
+                            </tr>
+                            {colors.map((rowColor, rowIndex) => {
+                                const isRowHighlighted = highlight.row === rowIndex
+                                const rowHighlightColor = COLOR_CLASS_MAP[rowColor.color] ?? ""
+
+                                return <tr
+                                    key={rowColor.color}
+                                    className={`border-0 ${isAllowedColor(rowColor) ? "" : " hidden"}`}
+                                >
+                                    <th
+                                        scope={"row"}
+                                        className={`${isRowHighlighted ? rowHighlightColor : ""}`}
+                                        onMouseEnter={() => setHighlight({row: rowIndex, col: null})}
+                                        onMouseLeave={() => setHighlight({row: null, col: null})}
+                                    >
+                                        {rowColor.color}
+                                    </th>
+                                    {colors.map((colColor, colIndex) => {
+                                        const isColHighlighted = highlight.col === colIndex
+                                        const colHighlightColor = COLOR_CLASS_MAP[colColor.color] ?? ""
+
+                                        return <td
+                                            key={colColor.color}
+                                            className={`p-3 relative ${isAllowedColor(colColor) ? "" : "hidden"} isolate`}
+                                            onMouseEnter={() => setHighlight({row: rowIndex, col: colIndex})}
+                                            onMouseLeave={() => setHighlight({row: null, col: null})}
+                                        >
+                                            {isRowHighlighted &&
+                                                <div className={`absolute inset-0 z-0 ${rowHighlightColor} mix-blend-multiply`} />
+                                            }
+                                            {isColHighlighted &&
+                                                <div className={`absolute inset-0 z-0 ${colHighlightColor} mix-blend-multiply`} />
+                                            }
+                                            <div className={"relative z-10"}>
+                                                <input
+                                                    type={"checkbox"}
+                                                    className={"checkbox"}
+                                                    name={"color_exclude"}
+                                                    id={`${rowColor.color.toLowerCase()}-${colColor.color.toLowerCase()}`}
+                                                    onChange={mirrorCheck}
+                                                />
+                                            </div>
+                                        </td>
+                                    })}
+                                </tr>
+                            })}
                         </tbody>
                     </table>
-            </>
+            </div>
             }
         </div>
     </div>
