@@ -1,4 +1,4 @@
-import './css/App.css'
+import './styling/App.css'
 import Header from "./components/Header.tsx";
 import {useEffect, useState} from "react";
 import type {Color} from "./types/color.ts";
@@ -10,11 +10,13 @@ import type {Expansion} from "./types/expansion.ts";
 import {Factions} from "./components/Factions.tsx";
 import {Scores} from "./components/Scores.tsx";
 import Footer from './components/Footer.tsx';
+import {Results} from "./components/Results";
 
 function App() {
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
     const [expansions, setExpansions] = useState<Expansion[]>([])
     const [colors, setColors] = useState<Color[]>([])
+    const [excludedColors, setExcludedColors] = useState<string[]>([])
     const [factions, setFactions] = useState<Faction[]>([])
     const [selectedFactions, setSelectedFactions] = useState<string[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
@@ -67,6 +69,14 @@ function App() {
         <div className="flex flex-col h-full">
             <Header />
             <div className={"flex flex-col gap-2 ml-6 mr-6 grow"}>
+                <Results
+                    expansionStates={expansionStates}
+                    colors={colors}
+                    excludedColors={excludedColors}
+                    factions={factions}
+                    selectedFactions={selectedFactions}
+                    scoring={scoring}
+                />
                 <Options
                     expansions={expansions}
                     expansionStates={expansionStates}
@@ -81,6 +91,7 @@ function App() {
                 <ExcludeColors
                     expansionStates={expansionStates}
                     colors={colors}
+                    setExcludedColors={setExcludedColors}
                 />
                 <Scores
                     expansionStates={expansionStates}

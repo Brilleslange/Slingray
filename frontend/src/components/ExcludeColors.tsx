@@ -1,14 +1,15 @@
 import type {Color} from "../types/color.ts";
 import * as React from "react";
 import {type ChangeEvent} from "react";
-import {COLOR_CLASS_MAP, type Highlight} from "../util/TableHighlighting.ts"
+import {COLOR_CLASS_MAP, type Highlight} from "../styling/TableHighlighting.ts"
 
 type Props = {
     expansionStates: Map<string, boolean>,
-    colors: Color[]
+    colors: Color[],
+    setExcludedColors: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
+export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcludedColors}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
 
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
@@ -16,10 +17,24 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors}) => {
     const mirrorCheck = (e: ChangeEvent<HTMLInputElement>) => {
         const id = e.target.id;
         const oppositeId = id.split("-").reverse().join("-");
+
         if (id !== oppositeId) {
             const opposite = document.getElementById(oppositeId) as HTMLInputElement;
             opposite.checked = e.target.checked;
         }
+
+        setExcludedColors(prev => {
+            const next = prev.slice()
+            const index = next.findIndex(f => f === id || f === oppositeId)
+            if (e.target.checked && index === -1) {
+                next.push(id)
+            } else if (!e.target.checked && index !== -1) {
+                next.splice(index, 1)
+            } else {
+                return prev
+            }
+            return next
+        })
     }
 
     return <div className={"collapse collapse-arrow bg-base-300"}>

@@ -2,7 +2,7 @@ import * as React from "react";
 import type {Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
-import {COLOR_CLASS_MAP, type Highlight} from "../util/TableHighlighting";
+import {COLOR_CLASS_MAP, type Highlight} from "../styling/TableHighlighting";
 
 type Props = {
     expansionStates: Map<string, boolean>,

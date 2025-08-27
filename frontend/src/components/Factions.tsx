@@ -73,7 +73,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                         )}
                     </div>
                     <form
-                        className={"flex gap-1"}
+                        className={"flex gap-1 justify-center"}
                         onSubmit={(e) => {
                             e.preventDefault()
                             randomizeFactions()
