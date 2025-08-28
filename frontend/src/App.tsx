@@ -1,19 +1,17 @@
 import './styling/App.css'
 import Header from "./components/Header.tsx";
+import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import type {Color} from "./types/color.ts";
 import type {Faction} from "./types/faction.ts";
 import type {Scoring} from "./types/scoring.ts";
-import {ExcludeColors} from "./components/ExcludeColors.tsx";
-import {Options} from "./components/Options.tsx";
 import type {Expansion} from "./types/expansion.ts";
 import {Factions} from "./components/Factions.tsx";
-import {Scores} from "./components/Scores.tsx";
 import Footer from './components/Footer.tsx';
 import {Results} from "./components/Results";
 import Help from "./components/Help";
-import * as React from "react";
 import type {Assignment} from "./types/assignment";
+import {Config} from "./components/Config";
 
 function App() {
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
@@ -137,59 +135,21 @@ function App() {
                     resultsRef={resultsRef}
                     configRef={configRef}
                 />
-                <div className={"collapse collapse-arrow bg-base-300"}>
-                    <input type={"checkbox"} ref={configRef}/>
-                    <div className={"collapse-title"}>
-                        Configuration
-                    </div>
-                    <div className={"collapse-content flex flex-col gap-1"}>
-                        <Options
-                            loading={loading}
-                            expansions={expansions}
-                            expansionStates={expansionStates}
-                            setExpansionStates={setExpansionStates}
-                        />
-                        <ExcludeColors
-                            loading={loading}
-                            expansionStates={expansionStates}
-                            colors={colors}
-                            setExcludedColors={setExcludedColors}
-                        />
-                        <Scores
-                            loading={loading}
-                            expansionStates={expansionStates}
-                            colors={colors}
-                            factions={factions}
-                            scoring={scoring}
-                            setScoring={setScoring}
-                        />
-                        <div className={"flex"}>
-                            <div className={"flex flex-1 justify-start"}>
-                                <button
-                                    className={"btn btn-neutral"}
-                                    onClick={_ => {
-                                        configRef.current!.checked = false;
-                                        factionsRef.current!.checked = true;
-                                    }}
-                                >
-                                    Select factions
-                                </button>
-                            </div>
-                            <button
-                                className={"btn btn-neutral"}
-                                onClick={_ => {
-                                    configRef.current!.checked = false;
-                                    resultsRef.current!.checked = true;
-                                    getResults();
-                                }}
-                            >
-                                Assign colors
-                            </button>
-                            <div className={"flex flex-1 justify-end"}>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Config
+                    expansions={expansions}
+                    expansionStates={expansionStates}
+                    setExpansionStates={setExpansionStates}
+                    factions={factions}
+                    colors={colors}
+                    setExcludedColors={setExcludedColors}
+                    scoring={scoring}
+                    setScoring={setScoring}
+                    loading={loading}
+                    getResults={getResults}
+                    factionsRef={factionsRef}
+                    resultsRef={resultsRef}
+                    configRef={configRef}
+                />
             </div>
             <Footer />
         </div>
