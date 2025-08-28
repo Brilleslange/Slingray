@@ -69,6 +69,16 @@ export default function Help() {
                         "the more likely the color."
                     }</div>
                 </div>
+                <div className={"collapse bg-base-200"}>
+                    <input type={"checkbox"}/>
+                    <div className={"collapse-title"}>
+                        Why "Slingray"?
+                    </div>
+                    <div className={"collapse-content text-sm"}>{
+                        "My Twilight Imperium group shortens the Sling Relay technology to Slingray, " +
+                        "so it's an homage to the people I play the game with."
+                    }</div>
+                </div>
             </div>
         </div>
     </div>)

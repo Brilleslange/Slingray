@@ -5,7 +5,7 @@ export default function Header() {
         <header className={"flex items-center gap-4 p-4"}>
             <SlingrayLogo className="size-28" />
             <h1 className={"text-6xl grow"}>Slingray</h1>
-            <h2 className={"text-3xl"}>Twilight Imperium 4th Edition Color Assigner</h2>
+            <h2 className={"text-2xl"}>Twilight Imperium 4th Edition Color Assigner</h2>
         </header>
     )
 }
