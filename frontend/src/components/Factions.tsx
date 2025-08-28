@@ -1,15 +1,21 @@
 import * as React from "react";
 import {type ChangeEvent, useRef} from "react";
 import type {Faction} from "../types/faction.ts";
+import Cog from "../assets/cog.svg?react";
 
 type Props = {
+    loading: boolean,
     expansionStates: Map<string, boolean>,
     factions: Faction[]
     selectedFactions: string[]
-    setSelectedFactions: React.Dispatch<React.SetStateAction<string[]>>
+    setSelectedFactions: React.Dispatch<React.SetStateAction<string[]>>,
+    getResults: () => Promise<void>,
+    factionsRef: React.RefObject<HTMLInputElement | null>
+    resultsRef: React.RefObject<HTMLInputElement | null>
+    configRef: React.RefObject<HTMLInputElement | null>
 }
 
-export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFactions, setSelectedFactions}) => {
+export const Factions: React.FC<Props> = ({loading, expansionStates, factions, selectedFactions, setSelectedFactions, getResults, factionsRef, resultsRef, configRef}) => {
     const randomCountRef = useRef<HTMLInputElement>(null)
     const availableFactions = factions.filter(faction => expansionStates.get(faction.expansion))
 
@@ -46,13 +52,13 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
     }
 
     return (<div className={"collapse collapse-arrow bg-base-300"}>
-        <input type={"checkbox"}/>
+        <input type={"checkbox"} defaultChecked={true} ref={factionsRef}/>
         <div className={"collapse-title"}>
             Factions
         </div>
         <div className={"collapse-content"}>
             {factions.length === 0
-                ? <div className={"alert alert-error"}>Error: Factions could not be loaded.</div>
+                ? !loading && <div className={"alert alert-error"}>Error: Factions could not be loaded.</div>
                 : <div className={"flex flex-col gap-4 p-4"}>
                     <div className={"grid w-full gap-3 [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]"}>
                         {factions.map(faction =>
@@ -72,36 +78,61 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                             </label>
                         )}
                     </div>
-                    <form
-                        className={"flex gap-1 justify-center"}
-                        onSubmit={(e) => {
-                            e.preventDefault()
-                            randomizeFactions()
-                        }}
-                    >
-                        <input
-                            type={"number"}
-                            className={"input w-20 bg-base-200"}
-                            name={"random-count"}
-                            min={0}
-                            max={availableFactions.length}
-                            defaultValue={0}
-                            step={1}
-                            inputMode={"numeric"}
-                            ref={randomCountRef}
-                            required={true}
-                        />
-                        <div
-                            className={"tooltip tooltip-right tooltip-warning"}
-                            data-tip={"Warning: Any selected factions may be deselected."}
+                    <div className={"flex"}>
+                        <form
+                            className={"flex gap-1 justify-start flex-1"}
+                            onSubmit={(e) => {
+                                e.preventDefault()
+                                randomizeFactions()
+                            }}
                         >
                             <input
-                                type={"submit"}
-                                className={"btn btn-neutral"}
-                                value={"Randomize factions"}
+                                type={"number"}
+                                className={"input w-20 bg-base-200"}
+                                name={"random-count"}
+                                min={0}
+                                max={availableFactions.length}
+                                defaultValue={0}
+                                step={1}
+                                inputMode={"numeric"}
+                                ref={randomCountRef}
+                                required={true}
                             />
+                            <div
+                                className={"tooltip tooltip-right tooltip-warning"}
+                                data-tip={"Warning: Any selected factions may be deselected."}
+                            >
+                                <input
+                                    type={"submit"}
+                                    className={"btn btn-neutral"}
+                                    value={"Randomize factions"}
+                                />
+                            </div>
+                        </form>
+                        <div className={"flex flex-1 justify-center"}>
+                            <button
+                                className={"btn btn-neutral"}
+                                onClick={_ => {
+                                    factionsRef.current!.checked = false;
+                                    resultsRef.current!.checked = true;
+                                    getResults();
+                                }}
+                            >
+                                Assign colors
+                            </button>
                         </div>
-                    </form>
+                        <div className={"flex flex-1 justify-end"}>
+                            <button
+                                className={"btn btn-neutral"}
+                                onClick={_ => {
+                                    factionsRef.current!.checked = false;
+                                    configRef.current!.checked = true;
+                                }}
+                            >
+                                 <Cog/> Configure
+                            </button>
+                        </div>
+                    </div>
                 </div>
             }
         </div>

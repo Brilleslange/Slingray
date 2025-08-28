@@ -3,12 +3,13 @@ import * as React from "react";
 import type {Expansion} from "../types/expansion.ts";
 
 type Props = {
+    loading: boolean,
     expansions: Expansion[];
     expansionStates: Map<string, boolean>;
     setExpansionStates: React.Dispatch<React.SetStateAction<Map<string, boolean>>>;
 }
 
-export const Options: React.FC<Props> = ({expansions, expansionStates, setExpansionStates}) => {
+export const Options: React.FC<Props> = ({loading, expansions, expansionStates, setExpansionStates}) => {
     const toggleExpansion = (e: ChangeEvent<HTMLInputElement>) => {
         const id = e.target.id
         setExpansionStates(prev => {
@@ -19,13 +20,13 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
         })
     }
 
-    return (<div className={"collapse collapse-arrow bg-base-300"}>
+    return (<div className={"collapse collapse-plus border"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
             Options
         </div>
         <div className={"collapse-content"}>
-            { expansions.length === 0 && <div className={"alert alert-error"}>Error: Expansions could not be loaded.</div> }
+            { expansions.length === 0 && !loading && <div className={"alert alert-error"}>Error: Expansions could not be loaded.</div> }
             <div className={"flex"}>
                 { expansions.length > 0 && <div className={"card bg-base-200"}>
                     <div className={"card-body"}>

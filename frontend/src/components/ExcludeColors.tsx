@@ -4,12 +4,13 @@ import {type ChangeEvent} from "react";
 import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts"
 
 type Props = {
+    loading: boolean,
     expansionStates: Map<string, boolean>,
     colors: Color[],
     setExcludedColors: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcludedColors}) => {
+export const ExcludeColors: React.FC<Props> = ({loading, expansionStates, colors, setExcludedColors}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
 
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
@@ -37,14 +38,14 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
         })
     }
 
-    return <div className={"collapse collapse-arrow bg-base-300"}>
+    return <div className={"collapse collapse-plus border"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
             Exclude colors
         </div>
         <div className={"collapse-content"}>
             { colors.length === 0
-                ? <div className={"alert alert-error"}>Error: Colors could not be loaded.</div>
+                ? !loading && <div className={"alert alert-error"}>Error: Colors could not be loaded.</div>
                 : <div className={"flex justify-center"}>
                     <table className={"table table-auto w-auto"}>
                         <tbody>

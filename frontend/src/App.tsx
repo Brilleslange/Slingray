@@ -1,6 +1,6 @@
 import './styling/App.css'
 import Header from "./components/Header.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import type {Color} from "./types/color.ts";
 import type {Faction} from "./types/faction.ts";
 import type {Scoring} from "./types/scoring.ts";
@@ -12,6 +12,8 @@ import {Scores} from "./components/Scores.tsx";
 import Footer from './components/Footer.tsx';
 import {Results} from "./components/Results";
 import Help from "./components/Help";
+import * as React from "react";
+import type {Assignment} from "./types/assignment";
 
 function App() {
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
@@ -21,8 +23,51 @@ function App() {
     const [factions, setFactions] = useState<Faction[]>([])
     const [selectedFactions, setSelectedFactions] = useState<string[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
+    const [loading, setLoading] = React.useState(false);
+    const [results, setResults] = React.useState<Assignment[]>([]);
+    const [resultsError, setResultsError] = React.useState("");
+
+    const factionsRef = useRef<HTMLInputElement>(null)
+    const resultsRef = useRef<HTMLInputElement>(null)
+    const configRef = useRef<HTMLInputElement>(null)
+
+    async function getResults() {
+        setLoading(true);
+        setResults([])
+        setResultsError("");
+
+        try {
+            const payload = {
+                expansionStates: Object.fromEntries(expansionStates),
+                factions: selectedFactions,
+                excludedColors: excludedColors,
+                scoring: scoring
+            }
+
+            const res = await fetch("/api/assign", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+
+            if (!res.ok) {
+                setResultsError(await res.text() ?? res.statusText);
+            } else {
+                setResults(await res.json());
+            }
+        } catch (e) {
+            if (e instanceof Error) {
+                setResultsError(e.message);
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
+        setLoading(true);
         Promise.all([
             fetch("/api/expansions").then(res => res.json()),
             fetch("/api/colors").then(res => res.json()),
@@ -60,6 +105,7 @@ function App() {
                 setScoring(defaultScoring);
             }
         })
+        setLoading(false);
     }, [])
 
     useEffect(() => {
@@ -71,35 +117,79 @@ function App() {
             <Header />
             <div className={"flex flex-col gap-2 ml-6 mr-6 grow"}>
                 <Help />
-                <Results
-                    expansionStates={expansionStates}
-                    excludedColors={excludedColors}
-                    selectedFactions={selectedFactions}
-                    scoring={scoring}
-                />
-                <Options
-                    expansions={expansions}
-                    expansionStates={expansionStates}
-                    setExpansionStates={setExpansionStates}
-                />
                 <Factions
+                    loading={loading}
                     expansionStates={expansionStates}
                     factions={factions}
                     selectedFactions={selectedFactions}
                     setSelectedFactions={setSelectedFactions}
+                    getResults={getResults}
+                    factionsRef={factionsRef}
+                    resultsRef={resultsRef}
+                    configRef={configRef}
                 />
-                <ExcludeColors
-                    expansionStates={expansionStates}
-                    colors={colors}
-                    setExcludedColors={setExcludedColors}
+                <Results
+                    getResults={getResults}
+                    results={results}
+                    loading={loading}
+                    error={resultsError}
+                    factionsRef={factionsRef}
+                    resultsRef={resultsRef}
+                    configRef={configRef}
                 />
-                <Scores
-                    expansionStates={expansionStates}
-                    colors={colors}
-                    factions={factions}
-                    scoring={scoring}
-                    setScoring={setScoring}
-                />
+                <div className={"collapse collapse-arrow bg-base-300"}>
+                    <input type={"checkbox"} ref={configRef}/>
+                    <div className={"collapse-title"}>
+                        Configuration
+                    </div>
+                    <div className={"collapse-content flex flex-col gap-1"}>
+                        <Options
+                            loading={loading}
+                            expansions={expansions}
+                            expansionStates={expansionStates}
+                            setExpansionStates={setExpansionStates}
+                        />
+                        <ExcludeColors
+                            loading={loading}
+                            expansionStates={expansionStates}
+                            colors={colors}
+                            setExcludedColors={setExcludedColors}
+                        />
+                        <Scores
+                            loading={loading}
+                            expansionStates={expansionStates}
+                            colors={colors}
+                            factions={factions}
+                            scoring={scoring}
+                            setScoring={setScoring}
+                        />
+                        <div className={"flex"}>
+                            <div className={"flex flex-1 justify-start"}>
+                                <button
+                                    className={"btn btn-neutral"}
+                                    onClick={_ => {
+                                        configRef.current!.checked = false;
+                                        factionsRef.current!.checked = true;
+                                    }}
+                                >
+                                    Select factions
+                                </button>
+                            </div>
+                            <button
+                                className={"btn btn-neutral"}
+                                onClick={_ => {
+                                    configRef.current!.checked = false;
+                                    resultsRef.current!.checked = true;
+                                    getResults();
+                                }}
+                            >
+                                Assign colors
+                            </button>
+                            <div className={"flex flex-1 justify-end"}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <Footer />
         </div>

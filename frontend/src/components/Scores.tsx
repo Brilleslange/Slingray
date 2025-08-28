@@ -5,6 +5,7 @@ import type {Faction} from "../types/faction.ts";
 import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting";
 
 type Props = {
+    loading: boolean,
     expansionStates: Map<string, boolean>,
     colors: Color[],
     factions: Faction[],
@@ -12,7 +13,7 @@ type Props = {
     setScoring: React.Dispatch<React.SetStateAction<Scoring[]>>
 }
 
-export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scoring, setScoring}) => {
+export const Scores: React.FC<Props> = ({loading, expansionStates, colors, factions, scoring, setScoring}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
 
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
@@ -50,14 +51,14 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
         })
     }
 
-    return (<div className={"collapse collapse-arrow bg-base-300"}>
+    return (<div className={"collapse collapse-plus border"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
-            Scoring
+            Color weighting
         </div>
         <div className={"collapse-content"}>
             { (scoring.length === 0 || factions.length === 0 || colors.length === 0)
-                ? <div className={"alert alert-error"}>Error: Scores could not be loaded.</div>
+                ? !loading && <div className={"alert alert-error"}>Error: Scores could not be loaded.</div>
                 : <div className={"flex flex-col items-center"}>
                     <table className={"table table-auto w-auto"}>
                         <tbody>

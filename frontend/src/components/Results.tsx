@@ -1,57 +1,21 @@
 import * as React from "react";
-import type {Scoring} from "../types/scoring";
 import type {Assignment} from "../types/assignment";
 import {COLOR_CLASS_MAP_OPAQUE} from "../styling/TableHighlighting";
+import Cog from "../assets/cog.svg?react";
 
 type Props = {
-    expansionStates: Map<string, boolean>,
-    excludedColors: string[],
-    selectedFactions: string[],
-    scoring: Scoring[]
+    getResults: () => Promise<void>,
+    results: Assignment[],
+    loading: boolean,
+    error: string,
+    factionsRef: React.RefObject<HTMLInputElement | null>
+    resultsRef: React.RefObject<HTMLInputElement | null>
+    configRef: React.RefObject<HTMLInputElement | null>
 }
 
-export const Results: React.FC<Props> = ({expansionStates, excludedColors, selectedFactions, scoring}) => {
-    const [results, setResults] = React.useState<Assignment[]>([]);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState("");
-
-    async function getResults() {
-        setResults([])
-        setLoading(true);
-        setError("");
-
-        try {
-            const payload = {
-                expansionStates: Object.fromEntries(expansionStates),
-                factions: selectedFactions,
-                excludedColors: excludedColors,
-                scoring: scoring
-            }
-
-            const res = await fetch("/api/assign", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            })
-
-            if (!res.ok) {
-                setError(await res.text() ?? res.statusText);
-            } else {
-                setResults(await res.json());
-            }
-        } catch (e) {
-            if (e instanceof Error) {
-                setError(e.message);
-            }
-        } finally {
-            setLoading(false);
-        }
-    }
-
+export const Results: React.FC<Props> = ({getResults, results, loading, error, factionsRef, resultsRef, configRef}) => {
     return (<div className={"collapse collapse-arrow bg-base-300"}>
-        <input type={"checkbox"}/>
+        <input type={"checkbox"} ref={resultsRef}/>
         <div className={"collapse-title"}>
             Results
         </div>
@@ -72,13 +36,39 @@ export const Results: React.FC<Props> = ({expansionStates, excludedColors, selec
                         })}
                     </div>
                 }
-                <button
-                    className={"btn btn-neutral self-center"}
-                    onClick={getResults}
-                    disabled={loading}
-                >
-                    Assign colors
-                </button>
+                <div className={"flex"}>
+                    <div className={"flex flex-1 justify-start"}>
+                        <button
+                            className={"btn btn-neutral"}
+                            onClick={_ => {
+                                resultsRef.current!.checked = false;
+                                factionsRef.current!.checked = true;
+                            }}
+                        >
+                            Select factions
+                        </button>
+                    </div>
+                    <div className={"flex flex-1 justify-center"}>
+                        <button
+                            className={"btn btn-neutral"}
+                            onClick={getResults}
+                            disabled={loading}
+                        >
+                            Assign colors
+                        </button>
+                    </div>
+                    <div className={"flex flex-1 justify-end"}>
+                        <button
+                            className={"btn btn-neutral"}
+                            onClick={_ => {
+                                resultsRef.current!.checked = false;
+                                configRef.current!.checked = true;
+                            }}
+                        >
+                            <Cog/> Configure
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>)

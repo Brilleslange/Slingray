@@ -35,7 +35,7 @@ export default function Help() {
                         I don't have all the expansions, what do I do?
                     </div>
                     <div className={"collapse-content text-sm"}>{
-                        "Open the Options accordion and uncheck the expansions you don't have."
+                        "Open the Options accordion under Configuration and uncheck the expansions you don't have."
                     }</div>
                 </div>
                 <div className={"collapse bg-base-200"}>
@@ -45,7 +45,7 @@ export default function Help() {
                     </div>
                     <div className={"collapse-content text-sm"}>
                         <p>{
-                            "Open the Exclude colors accordion. If you check a color combination, " +
+                            "Open the Exclude colors accordion under Configuration. If you check a color combination, " +
                             "those two colors will never appear together in the results. " +
                             "For example, if you check the checkbox in the red row and the green column " +
                             "(which will also check the checkbox in the green row and the red column), " +
@@ -64,9 +64,9 @@ export default function Help() {
                         I don't agree with some of the results, can I adjust them?
                     </div>
                     <div className={"collapse-content text-sm"}>{
-                        "If you disagree with the color assignments, you can open the Scoring accordion " +
-                        "and adjust each faction's score for each colors. The higher the score, " +
-                        "the more likely the color."
+                        "If you disagree with the color assignments, you can open the Color weighting accordion " +
+                        "under Configuration and adjust each faction's score for each colors. " +
+                        "The higher the score, the more likely the color."
                     }</div>
                 </div>
                 <div className={"collapse bg-base-200"}>
