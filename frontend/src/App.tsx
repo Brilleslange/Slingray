@@ -11,6 +11,7 @@ import {Factions} from "./components/Factions.tsx";
 import {Scores} from "./components/Scores.tsx";
 import Footer from './components/Footer.tsx';
 import {Results} from "./components/Results";
+import Help from "./components/Help";
 
 function App() {
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
@@ -69,6 +70,7 @@ function App() {
         <div className="flex flex-col h-full">
             <Header />
             <div className={"flex flex-col gap-2 ml-6 mr-6 grow"}>
+                <Help />
                 <Results
                     expansionStates={expansionStates}
                     excludedColors={excludedColors}
