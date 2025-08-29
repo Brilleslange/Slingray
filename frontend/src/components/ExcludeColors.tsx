@@ -44,6 +44,18 @@ export const ExcludeColors: React.FC<Props> = ({loading, expansionStates, colors
             Exclude colors
         </div>
         <div className={"collapse-content"}>
+            <p className={"text-sm"}>{
+                "If you check a color combination, " +
+                "those two colors will never appear together in the results. " +
+                "For example, if you check the checkbox in the red row and the green column " +
+                "(which will also check the checkbox in the green row and the red column), " +
+                "the result may contain either red or green, but never both."
+            }</p>
+            <p className={"text-sm"}>{
+                "If you want to exclude a color altogether, you can check the checkbox in that " +
+                "color's row and column. For example, if you want to exclude blue, " +
+                "you can check the checkbox in the blue row and the blue column."
+            }</p>
             { colors.length === 0
                 ? !loading && <div className={"alert alert-error"}>Error: Colors could not be loaded.</div>
                 : <div className={"flex justify-center"}>

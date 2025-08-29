@@ -57,6 +57,10 @@ export const Scores: React.FC<Props> = ({loading, expansionStates, colors, facti
             Color weighting
         </div>
         <div className={"collapse-content"}>
+            <p className={"text-sm"}>{
+                "The higher the score, the more likely the color is to be assigned to that faction. " +
+                "Press the edit button at the bottom to change the scores."
+            }</p>
             { (scoring.length === 0 || factions.length === 0 || colors.length === 0)
                 ? !loading && <div className={"alert alert-error"}>Error: Scores could not be loaded.</div>
                 : <div className={"flex flex-col items-center"}>
