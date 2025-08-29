@@ -2,10 +2,10 @@ import './styling/App.css'
 import Header from "./components/Header.tsx";
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
-import type {Color} from "./types/color.ts";
-import type {Faction} from "./types/faction.ts";
-import type {Scoring} from "./types/scoring.ts";
-import type {Expansion} from "./types/expansion.ts";
+import {type Color, COLORS} from "./types/color.ts";
+import {type Faction, FACTIONS} from "./types/faction.ts";
+import {type Scoring, DEFAULT_SCORING} from "./types/scoring.ts";
+import {type Expansion, EXPANSIONS} from "./types/expansion.ts";
 import {Factions} from "./components/Factions.tsx";
 import Footer from './components/Footer.tsx';
 import {Results} from "./components/Results";
@@ -14,12 +14,13 @@ import type {Assignment} from "./types/assignment";
 import {Config} from "./components/Config";
 
 function App() {
-    const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
-    const [expansions, setExpansions] = useState<Expansion[]>([])
-    const [colors, setColors] = useState<Color[]>([])
-    const [excludedColors, setExcludedColors] = useState<string[]>([])
-    const [factions, setFactions] = useState<Faction[]>([])
-    const [selectedFactions, setSelectedFactions] = useState<string[]>([])
+    const expansions: Expansion[] = Object.values(EXPANSIONS)
+    const colors: Color[] = Object.values(COLORS)
+    const factions: Faction[] = Object.values(FACTIONS)
+
+    const [expansionStates, setExpansionStates] = useState<Map<Expansion, boolean>>(new Map());
+    const [excludedColors, setExcludedColors] = useState<[Color, Color][]>([])
+    const [selectedFactions, setSelectedFactions] = useState<Faction[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
     const [loading, setLoading] = React.useState(false);
     const [results, setResults] = React.useState<Assignment[]>([]);
@@ -66,45 +67,38 @@ function App() {
 
     useEffect(() => {
         setLoading(true);
-        Promise.all([
-            fetch("/api/expansions").then(res => res.json()),
-            fetch("/api/colors").then(res => res.json()),
-            fetch("/api/factions").then(res => res.json()),
-            fetch("/api/scoring").then(res => res.json()),
-        ]).then(([retrievedExpansions, retrievedColors, retrievedFactions, defaultScoring]) => {
-            setExpansions(retrievedExpansions)
-            setExpansionStates(new Map(retrievedExpansions.map((e: Expansion) =>
-                e.short === "base"
-                    ? [e.short, true]
-                    : [e.short, localStorage.getItem(`expansions.${e.short}`) !== "false"]
-            )))
-            setColors(retrievedColors)
-            setFactions(retrievedFactions)
 
-            function isValidScoring(retrievedScoring: Scoring[]): boolean {
-                if (retrievedScoring.length !== retrievedFactions.length) return false;
-                if (!retrievedScoring.every(s => Object.keys(s.scores).length === retrievedColors.length)) return false;
-                if (!retrievedScoring.every(s => retrievedFactions.some((f: Faction) => f.short === s.faction))) return false;
-                if (!retrievedScoring.every(s => Object.keys(s.scores).every(c => retrievedColors.some((col: Color) => col.color === c)))) return false;
-                return true;
-            }
+        setExpansionStates(new Map(expansions.map((expansion: Expansion) =>
+            expansion.short === "base"
+                ? [expansion, true]
+                : [expansion, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
+        )))
 
-            try {
-                const scoringFromLocalStorage = localStorage.getItem("scoring");
-                if (scoringFromLocalStorage) {
-                    const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
-                    if (isValidScoring(parsedScoring)) {
-                        setScoring(parsedScoring);
-                        return;
-                    }
+
+
+        function isValidScoring(retrievedScoring: Scoring[]): boolean {
+            if (retrievedScoring.length !== factions.length) return false;
+            if (!retrievedScoring.every(s => Object.keys(s.scores).length === colors.length)) return false;
+            if (!retrievedScoring.every(s => factions.some((f: Faction) => f.short === s.faction.short))) return false;
+            if (!retrievedScoring.every(s => Object.keys(s.scores).every(c => colors.some((col: Color) => col.color === c)))) return false;
+            return true;
+        }
+
+        try {
+            const scoringFromLocalStorage = localStorage.getItem("scoring");
+            if (scoringFromLocalStorage) {
+                const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
+                if (isValidScoring(parsedScoring)) {
+                    setScoring(parsedScoring);
+                    return;
                 }
-                setScoring(defaultScoring);
-            } catch {
-                setScoring(defaultScoring);
             }
-        })
+            setScoring(DEFAULT_SCORING);
+        } catch {
+            setScoring(DEFAULT_SCORING);
+        }
         setLoading(false);
-    }, [])
+    }, [colors, expansions, factions])
 
     useEffect(() => {
         localStorage.setItem("scoring", JSON.stringify(scoring))
