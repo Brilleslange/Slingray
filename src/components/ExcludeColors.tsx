@@ -3,12 +3,13 @@ import * as React from "react";
 import {type ChangeEvent} from "react";
 import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts"
 import InfoIcon from "../assets/info.svg?react";
+import type {Expansion} from "../types/expansion";
 
 type Props = {
     loading: boolean,
-    expansionStates: Map<string, boolean>,
+    expansionStates: Map<Expansion, boolean>,
     colors: Color[],
-    setExcludedColors: React.Dispatch<React.SetStateAction<string[]>>
+    setExcludedColors: React.Dispatch<React.SetStateAction<[Color, Color][]>>
 }
 
 export const ExcludeColors: React.FC<Props> = ({loading, expansionStates, colors, setExcludedColors}) => {
@@ -27,9 +28,14 @@ export const ExcludeColors: React.FC<Props> = ({loading, expansionStates, colors
 
         setExcludedColors(prev => {
             const next = prev.slice()
-            const index = next.findIndex(f => f === id || f === oppositeId)
+            const colorNames = id.split("-").sort()
+            const colorPair: [Color, Color] = [colors.find(c => c.color === colorNames[0])!, colors.find(c => c.color === colorNames[1])!]
+            const index = next.findIndex(p =>
+                (p[0].color === colorPair[0].color && p[1].color === colorPair[1].color)
+                || (p[0].color === colorPair[1].color && p[1].color === colorPair[0].color)
+            )
             if (e.target.checked && index === -1) {
-                next.push(id)
+                next.push(colorPair)
             } else if (!e.target.checked && index !== -1) {
                 next.splice(index, 1)
             } else {

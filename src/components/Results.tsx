@@ -26,12 +26,12 @@ export const Results: React.FC<Props> = ({getResults, results, loading, error, f
                 { results.length > 0 &&
                     <div className={"grid grid-cols-[max-content_auto_max-content] justify-center gap-4 w-full"}>
                         {results.map(assignment => {
-                            const colorClass = COLOR_CLASS_MAP_OPAQUE[assignment.color] ?? ""
+                            const colorClass = COLOR_CLASS_MAP_OPAQUE[assignment.color.color] ?? ""
 
                             return <>
                                 <div>{assignment.faction.long}</div>
                                 <div className={"badge " + colorClass}></div>
-                                <div>{assignment.color}</div>
+                                <div>{assignment.color.color}</div>
                             </>
                         })}
                     </div>

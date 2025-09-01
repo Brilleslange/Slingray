@@ -2,13 +2,14 @@ import * as React from "react";
 import {type ChangeEvent, useRef} from "react";
 import type {Faction} from "../types/faction.ts";
 import Cog from "../assets/cog.svg?react";
+import type {Expansion} from "../types/expansion";
 
 type Props = {
     loading: boolean,
-    expansionStates: Map<string, boolean>,
+    expansionStates: Map<Expansion, boolean>,
     factions: Faction[]
-    selectedFactions: string[]
-    setSelectedFactions: React.Dispatch<React.SetStateAction<string[]>>,
+    selectedFactions: Faction[]
+    setSelectedFactions: React.Dispatch<React.SetStateAction<Faction[]>>,
     getResults: () => Promise<void>,
     factionsRef: React.RefObject<HTMLInputElement | null>
     resultsRef: React.RefObject<HTMLInputElement | null>
@@ -23,9 +24,10 @@ export const Factions: React.FC<Props> = ({loading, expansionStates, factions, s
         const id = e.target.id
         setSelectedFactions(prev => {
             const next = prev.slice()
-            const index = next.findIndex(f => f === id)
+            const faction = factions.find(f => f.short === id)!
+            const index = next.findIndex(f => f.short === faction.short)
             if (e.target.checked && index === -1) {
-                next.push(id)
+                next.push(faction)
             } else if (!e.target.checked && index !== -1) {
                 next.splice(index, 1)
             }
@@ -42,7 +44,7 @@ export const Factions: React.FC<Props> = ({loading, expansionStates, factions, s
         value = Math.trunc(value);
         const count = Math.max(0, Math.min(value, availableFactions.length));
 
-        const randomizedFactions = availableFactions.map(faction => faction.short)
+        const randomizedFactions = availableFactions
         for (let i = randomizedFactions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [randomizedFactions[i], randomizedFactions[j]] = [randomizedFactions[j], randomizedFactions[i]];
@@ -71,7 +73,7 @@ export const Factions: React.FC<Props> = ({loading, expansionStates, factions, s
                                     className={"checkbox"}
                                     name={"factions"}
                                     id={faction.short}
-                                    checked={selectedFactions.includes(faction.short)}
+                                    checked={selectedFactions.map(f => f.short).includes(faction.short)}
                                     onChange={toggleFaction}
                                 />
                                 <span className={"whitespace-nowrap"}>{faction.long}</span>
