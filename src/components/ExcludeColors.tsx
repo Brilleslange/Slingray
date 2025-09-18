@@ -14,34 +14,42 @@ type Props = {
 
 export const ExcludeColors: React.FC<Props> = ({loading, expansionStates, colors, setExcludedColors}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
+    const [checked, setChecked] = React.useState<boolean[][]>(
+        Array.from({length: colors.length}, () => Array(colors.length).fill(false))
+    )
 
-    const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
+    const isAllowedColor = (color: Color) => expansionStates.get(color.expansion) ?? false;
 
-    const mirrorCheck = (e: ChangeEvent<HTMLInputElement>) => {
-        const id = e.target.id;
-        const oppositeId = id.split("-").reverse().join("-");
+    const mirrorCheck = (e: ChangeEvent<HTMLInputElement>, row: number, col: number) => {
+        const newValue = e.target.checked
 
-        if (id !== oppositeId) {
-            const opposite = document.getElementById(oppositeId) as HTMLInputElement;
-            opposite.checked = e.target.checked;
-        }
+        setChecked(prev => {
+            const newChecked = prev.map(r => [...r])
+
+            newChecked[row][col] = newValue
+            newChecked[col][row] = newValue
+
+            return newChecked
+        })
 
         setExcludedColors(prev => {
-            const next = prev.slice()
-            const colorNames = id.split("-").sort()
-            const colorPair: [Color, Color] = [colors.find(c => c.color === colorNames[0])!, colors.find(c => c.color === colorNames[1])!]
-            const index = next.findIndex(p =>
-                (p[0].color === colorPair[0].color && p[1].color === colorPair[1].color)
-                || (p[0].color === colorPair[1].color && p[1].color === colorPair[0].color)
+            const firstColor = colors[Math.min(row, col)]
+            const secondColor = colors[Math.max(row, col)]
+            const colorPair: [Color, Color] = [firstColor, secondColor]
+
+            const newExcludedColors = [...prev]
+            const index = newExcludedColors.findIndex(pair =>
+                (pair[0] === firstColor && pair[1] === secondColor)
+                || (pair[1] === firstColor && pair[0] === secondColor)
             )
-            if (e.target.checked && index === -1) {
-                next.push(colorPair)
-            } else if (!e.target.checked && index !== -1) {
-                next.splice(index, 1)
-            } else {
-                return prev
+
+            if (newValue && index === -1) {
+                newExcludedColors.push(colorPair)
+            } else if (!newValue && index !== -1) {
+                newExcludedColors.splice(index, 1)
             }
-            return next
+
+            return newExcludedColors
         })
     }
 
@@ -128,7 +136,8 @@ export const ExcludeColors: React.FC<Props> = ({loading, expansionStates, colors
                                                     className={"checkbox"}
                                                     name={"color_exclude"}
                                                     id={`${rowColor.color.toLowerCase()}-${colColor.color.toLowerCase()}`}
-                                                    onChange={mirrorCheck}
+                                                    checked={checked[rowIndex][colIndex]}
+                                                    onChange={e => mirrorCheck(e, rowIndex, colIndex)}
                                                 />
                                             </div>
                                         </td>
