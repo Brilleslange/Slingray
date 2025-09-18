@@ -4,7 +4,7 @@ import {COLOR_CLASS_MAP_OPAQUE} from "../styling/TableHighlighting";
 import Cog from "../assets/cog.svg?react";
 
 type Props = {
-    getResults: () => Promise<void>,
+    getResults: () => void,
     results: Assignment[],
     loading: boolean,
     error: string,

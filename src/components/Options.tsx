@@ -5,8 +5,8 @@ import type {Expansion} from "../types/expansion.ts";
 type Props = {
     loading: boolean,
     expansions: Expansion[];
-    expansionStates: Map<string, boolean>;
-    setExpansionStates: React.Dispatch<React.SetStateAction<Map<string, boolean>>>;
+    expansionStates: Map<Expansion, boolean>;
+    setExpansionStates: React.Dispatch<React.SetStateAction<Map<Expansion, boolean>>>;
 }
 
 export const Options: React.FC<Props> = ({loading, expansions, expansionStates, setExpansionStates}) => {
@@ -14,7 +14,8 @@ export const Options: React.FC<Props> = ({loading, expansions, expansionStates, 
         const id = e.target.id
         setExpansionStates(prev => {
             const next = new Map(prev)
-            next.set(id, e.target.checked)
+            const expansion = expansions.find(e => e.short === id)!
+            next.set(expansion, e.target.checked)
             localStorage.setItem(`expansions.${id}`, e.target.checked.toString())
             return next
         })
@@ -43,7 +44,7 @@ export const Options: React.FC<Props> = ({loading, expansions, expansionStates, 
                                                     className={"checkbox"}
                                                     name={"expansions"}
                                                     id={expansion.short}
-                                                    checked={expansionStates.get(expansion.short) ?? true}
+                                                    checked={expansionStates.get(expansion) ?? true}
                                                     onChange={toggleExpansion}
                                                 />
                                                 {expansion.long}

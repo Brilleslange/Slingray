@@ -4,10 +4,11 @@ import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
 import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting";
 import InfoIcon from "../assets/info.svg?react";
+import type {Expansion} from "../types/expansion";
 
 type Props = {
     loading: boolean,
-    expansionStates: Map<string, boolean>,
+    expansionStates: Map<Expansion, boolean>,
     colors: Color[],
     factions: Faction[],
     scoring: Scoring[],
@@ -37,7 +38,7 @@ export const Scores: React.FC<Props> = ({loading, expansionStates, colors, facti
             });
 
             return {
-                faction: faction.short,
+                faction: faction,
                 scores
             };
         })
@@ -125,10 +126,10 @@ export const Scores: React.FC<Props> = ({loading, expansionStates, colors, facti
                                                         id={`${faction.short}-${color.color.toLowerCase()}`}
                                                         className={"input w-20 bg-base-200"}
                                                         min={0}
-                                                        defaultValue={scoring.find(s => s.faction === faction.short)?.scores[color.color]}
+                                                        defaultValue={scoring.find(s => s.faction.short === faction.short)?.scores[color.color]}
                                                     />)
                                                     : (<p className={"text-right"}>
-                                                        {scoring.find(s => s.faction === faction.short)?.scores[color.color]}
+                                                        {scoring.find(s => s.faction.short === faction.short)?.scores[color.color]}
                                                     </p>)
                                                 }
                                             </div>

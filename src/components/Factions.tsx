@@ -10,7 +10,7 @@ type Props = {
     factions: Faction[]
     selectedFactions: Faction[]
     setSelectedFactions: React.Dispatch<React.SetStateAction<Faction[]>>,
-    getResults: () => Promise<void>,
+    getResults: () => void,
     factionsRef: React.RefObject<HTMLInputElement | null>
     resultsRef: React.RefObject<HTMLInputElement | null>
     configRef: React.RefObject<HTMLInputElement | null>

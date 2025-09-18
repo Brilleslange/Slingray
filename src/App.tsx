@@ -3,8 +3,8 @@ import Header from "./components/Header.tsx";
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {type Color, COLORS} from "./types/color.ts";
-import {type Faction, FACTIONS} from "./types/faction.ts";
-import {type Scoring, DEFAULT_SCORING} from "./types/scoring.ts";
+import {compareFactions, type Faction, FACTIONS} from "./types/faction.ts";
+import {DEFAULT_SCORING, type Scoring} from "./types/scoring.ts";
 import {type Expansion, EXPANSIONS} from "./types/expansion.ts";
 import {Factions} from "./components/Factions.tsx";
 import Footer from './components/Footer.tsx';
@@ -12,11 +12,12 @@ import {Results} from "./components/Results";
 import Help from "./components/Help";
 import type {Assignment} from "./types/assignment";
 import {Config} from "./components/Config";
+import {assign} from "./utils/calculate";
 
 function App() {
     const expansions: Expansion[] = Object.values(EXPANSIONS)
     const colors: Color[] = Object.values(COLORS)
-    const factions: Faction[] = Object.values(FACTIONS)
+    const factions: Faction[] = Object.values(FACTIONS).sort((a, b) => compareFactions(a, b))
 
     const [expansionStates, setExpansionStates] = useState<Map<Expansion, boolean>>(new Map());
     const [excludedColors, setExcludedColors] = useState<[Color, Color][]>([])
@@ -36,29 +37,19 @@ function App() {
         setResultsError("");
 
         try {
-            const payload = {
-                expansionStates: Object.fromEntries(expansionStates),
-                factions: selectedFactions,
-                excludedColors: excludedColors,
-                scoring: scoring
-            }
-
-            const res = await fetch("/api/assign", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            })
-
-            if (!res.ok) {
-                setResultsError(await res.text() ?? res.statusText);
-            } else {
-                setResults(await res.json());
-            }
+            const assignment = await Promise.resolve(assign(
+                scoring.filter(s => selectedFactions.includes(s.faction)),
+                expansionStates,
+                colors,
+                excludedColors
+            ))
+            setResults(assignment);
         } catch (e) {
-            if (e instanceof Error) {
+            if (e instanceof Error && e.name === "AssignmentError") {
                 setResultsError(e.message);
+            } else {
+                setResultsError("An error occurred while calculating the results.");
+                console.error(e);
             }
         } finally {
             setLoading(false);
@@ -66,15 +57,30 @@ function App() {
     }
 
     useEffect(() => {
-        setLoading(true);
+        async function initializeApp() {
+            try {
+                const newExpansionStates = new Map(expansions.map((expansion: Expansion) =>
+                    expansion.short === "base"
+                        ? [expansion, true]
+                        : [expansion, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
+                ))
+                setExpansionStates(newExpansionStates);
 
-        setExpansionStates(new Map(expansions.map((expansion: Expansion) =>
-            expansion.short === "base"
-                ? [expansion, true]
-                : [expansion, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
-        )))
+                const scoringFromLocalStorage = localStorage.getItem("scoring");
+                if (scoringFromLocalStorage) {
+                    const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
+                    if (isValidScoring(parsedScoring)) {
+                        setScoring(parsedScoring);
+                    } else {
+                        setScoring(DEFAULT_SCORING);
+                    }
+                }
+            } catch {
+                setScoring(DEFAULT_SCORING);
+            }
 
 
+        }
 
         function isValidScoring(retrievedScoring: Scoring[]): boolean {
             if (retrievedScoring.length !== factions.length) return false;
@@ -84,21 +90,9 @@ function App() {
             return true;
         }
 
-        try {
-            const scoringFromLocalStorage = localStorage.getItem("scoring");
-            if (scoringFromLocalStorage) {
-                const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
-                if (isValidScoring(parsedScoring)) {
-                    setScoring(parsedScoring);
-                    return;
-                }
-            }
-            setScoring(DEFAULT_SCORING);
-        } catch {
-            setScoring(DEFAULT_SCORING);
-        }
-        setLoading(false);
-    }, [colors, expansions, factions])
+        setLoading(true);
+        initializeApp().finally(() => setLoading(false));
+    }, [])
 
     useEffect(() => {
         localStorage.setItem("scoring", JSON.stringify(scoring))

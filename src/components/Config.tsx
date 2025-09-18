@@ -17,7 +17,7 @@ type Props = {
     scoring: Scoring[],
     setScoring: React.Dispatch<React.SetStateAction<Scoring[]>>
     loading: boolean
-    getResults: () => Promise<void>
+    getResults: () => void
     factionsRef: React.RefObject<HTMLInputElement | null>
     resultsRef: React.RefObject<HTMLInputElement | null>
     configRef: React.RefObject<HTMLInputElement | null>
