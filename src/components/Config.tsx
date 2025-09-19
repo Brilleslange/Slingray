@@ -16,14 +16,13 @@ type Props = {
     setExcludedColors: React.Dispatch<React.SetStateAction<[Color, Color][]>>
     scoring: Scoring[],
     setScoring: React.Dispatch<React.SetStateAction<Scoring[]>>
-    loading: boolean
     getResults: () => void
     factionsRef: React.RefObject<HTMLInputElement | null>
     resultsRef: React.RefObject<HTMLInputElement | null>
     configRef: React.RefObject<HTMLInputElement | null>
 }
 
-export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansionStates, factions, colors, setExcludedColors, scoring, setScoring, loading, getResults, factionsRef, resultsRef, configRef}) => {
+export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansionStates, factions, colors, setExcludedColors, scoring, setScoring, getResults, factionsRef, resultsRef, configRef}) => {
     return (
         <div className={"collapse collapse-arrow bg-base-300"}>
             <input type={"checkbox"} ref={configRef}/>
@@ -32,19 +31,16 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
             </div>
             <div className={"collapse-content flex flex-col gap-1"}>
                 <Options
-                    loading={loading}
                     expansions={expansions}
                     expansionStates={expansionStates}
                     setExpansionStates={setExpansionStates}
                 />
                 <ExcludeColors
-                    loading={loading}
                     expansionStates={expansionStates}
                     colors={colors}
                     setExcludedColors={setExcludedColors}
                 />
                 <Scores
-                    loading={loading}
                     expansionStates={expansionStates}
                     colors={colors}
                     factions={factions}

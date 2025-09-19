@@ -7,7 +7,6 @@ import InfoIcon from "../assets/info.svg?react";
 import type {Expansion} from "../types/expansion";
 
 type Props = {
-    loading: boolean,
     expansionStates: Map<Expansion, boolean>,
     colors: Color[],
     factions: Faction[],
@@ -15,7 +14,7 @@ type Props = {
     setScoring: React.Dispatch<React.SetStateAction<Scoring[]>>
 }
 
-export const Scores: React.FC<Props> = ({loading, expansionStates, colors, factions, scoring, setScoring}) => {
+export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scoring, setScoring}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
 
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
@@ -65,8 +64,8 @@ export const Scores: React.FC<Props> = ({loading, expansionStates, colors, facti
                     "Press the edit button at the bottom to change the scores."
                 }
             </div>
-            { (scoring.length === 0 || factions.length === 0 || colors.length === 0)
-                ? !loading && <div className={"alert alert-error"}>Error: Scores could not be loaded.</div>
+            { scoring.length === 0
+                ? <div className={"alert alert-error"}>Error: Scores could not be loaded.</div>
                 : <div className={"flex flex-col items-center"}>
                     <table className={"table table-auto w-auto"}>
                         <tbody>
