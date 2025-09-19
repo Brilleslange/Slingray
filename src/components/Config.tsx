@@ -47,8 +47,8 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
                     scoring={scoring}
                     setScoring={setScoring}
                 />
-                <div className={"flex"}>
-                    <div className={"flex flex-1 justify-start"}>
+                <div className={"grid grid-cols-1 md:grid-cols-3 items-center gap-2"}>
+                    <div className={"justify-self-center md:justify-self-start"}>
                         <button
                             className={"btn btn-neutral"}
                             onClick={_ => {
@@ -59,18 +59,19 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
                             Select factions
                         </button>
                     </div>
-                    <button
-                        className={"btn btn-neutral"}
-                        onClick={_ => {
-                            configRef.current!.checked = false;
-                            resultsRef.current!.checked = true;
-                            getResults();
-                        }}
-                    >
-                        Assign colors
-                    </button>
-                    <div className={"flex flex-1 justify-end"}>
+                    <div className={"justify-self-center"}>
+                        <button
+                            className={"btn btn-neutral"}
+                            onClick={_ => {
+                                configRef.current!.checked = false;
+                                resultsRef.current!.checked = true;
+                                getResults();
+                            }}
+                        >
+                            Assign colors
+                        </button>
                     </div>
+                    <div />
                 </div>
             </div>
         </div>

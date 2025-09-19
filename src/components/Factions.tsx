@@ -77,9 +77,10 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                         </label>
                     )}
                 </div>
-                <div className={"flex"}>
+                <div className={"grid grid-cols-1 md:grid-cols-3 items-center gap-2"}>
                     <form
-                        className={"flex gap-1 justify-start flex-1"}
+                        className={"justify-self-center md:justify-self-start " +
+                            "flex gap-1 justify-start"}
                         onSubmit={(e) => {
                             e.preventDefault()
                             randomizeFactions()
@@ -108,7 +109,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                             />
                         </div>
                     </form>
-                    <div className={"flex flex-1 justify-center"}>
+                    <div className={"justify-self-center"}>
                         <button
                             className={"btn btn-neutral"}
                             onClick={_ => {
@@ -120,7 +121,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                             Assign colors
                         </button>
                     </div>
-                    <div className={"flex flex-1 justify-end"}>
+                    <div className={"justify-self-center md:justify-self-end"}>
                         <button
                             className={"btn btn-neutral"}
                             onClick={_ => {
