@@ -38,7 +38,11 @@ function App() {
 
         try {
             const assignment = await Promise.resolve(assign(
-                scoring.filter(s => selectedFactions.includes(s.faction)),
+                scoring.filter(s =>
+                    selectedFactions.filter(f =>
+                        expansionStates.get(f.expansion) ?? false
+                    ).includes(s.faction)
+                ),
                 expansionStates,
                 colors,
                 excludedColors
