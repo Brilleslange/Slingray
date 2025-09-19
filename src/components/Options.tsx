@@ -1,6 +1,7 @@
 import type {ChangeEvent} from "react";
 import * as React from "react";
 import type {Expansion} from "../types/expansion.ts";
+import InfoIcon from "../assets/info.svg?react";
 
 type Props = {
     expansions: Expansion[];
@@ -26,8 +27,16 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
             Options
         </div>
         <div className={"collapse-content"}>
+            <div className={"alert mb-2"}>
+                <InfoIcon />
+                <div className={"flex flex-col gap-2"}>
+                    <p>{
+                        "Looking for more options? Let me know by opening an issue on GitHub or sending me an email (see footer)!"
+                    }</p>
+                </div>
+            </div>
             <div className={"flex"}>
-                { expansions.length > 0 && <div className={"card bg-base-200"}>
+                <div className={"card bg-base-200"}>
                     <div className={"card-body"}>
                         <h3 className={"card-title"}>Expansions</h3>
                         <div className={"card-body"}>
@@ -52,7 +61,7 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
                             </ul>
                         </div>
                     </div>
-                </div>}
+                </div>
             </div>
         </div>
     </div>)
