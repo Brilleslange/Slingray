@@ -1,6 +1,6 @@
 import type {Color} from "../types/color.ts";
 import * as React from "react";
-import {type ChangeEvent} from "react";
+import {type ChangeEvent, useEffect} from "react";
 import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts"
 import InfoIcon from "../assets/info.svg?react";
 import type {Expansion} from "../types/expansion";
@@ -13,9 +13,7 @@ type Props = {
 
 export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcludedColors}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
-    const [checked, setChecked] = React.useState<boolean[][]>(
-        Array.from({length: colors.length}, () => Array(colors.length).fill(false))
-    )
+    const [checked, setChecked] = React.useState<boolean[][]>([])
 
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion) ?? false;
 
@@ -28,6 +26,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
             newChecked[row][col] = newValue
             newChecked[col][row] = newValue
 
+            localStorage.setItem("exclude_colors", JSON.stringify(newChecked))
             return newChecked
         })
 
@@ -52,6 +51,47 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
         })
     }
 
+    useEffect(() => {
+        const defaultChecked = Array.from(
+            {length: colors.length},
+            () => Array(colors.length).fill(false)
+        )
+        const checkedFromLocalStorage = localStorage.getItem("exclude_colors")
+
+        if (!checkedFromLocalStorage) {
+            setChecked(defaultChecked)
+            return
+        }
+
+        const checkedParsed: boolean[][] = JSON.parse(checkedFromLocalStorage)
+        if (checkedParsed.length !== colors.length) {
+            setChecked(defaultChecked)
+            return
+        }
+
+        setChecked(checkedParsed)
+
+        const checkedColors: [Color, Color][] = []
+
+        checkedParsed.forEach((row, rowIndex) =>
+            row.forEach((value, columnIndex) => {
+                if (value) {
+                    const firstColor = colors[Math.min(rowIndex, columnIndex)]
+                    const secondColor = colors[Math.max(rowIndex, columnIndex)]
+
+                    if (!checkedColors.some(colorPair =>
+                        colorPair[0] === firstColor && colorPair[1] === secondColor ||
+                        colorPair[1] === firstColor && colorPair[0] === secondColor
+                    )) {
+                        checkedColors.push([firstColor, secondColor])
+                    }
+                }
+            })
+        )
+
+        setExcludedColors(checkedColors)
+    }, []);
+
     return <div className={"collapse collapse-plus border"}>
         <input type={"checkbox"}/>
         <div className={"collapse-title"}>
@@ -75,7 +115,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                     }</p>
                 </div>
             </div>
-            <div className={"flex justify-center"}>
+            {checked.length > 0 && <div className={"flex justify-center"}>
                 <table className={"table table-auto w-auto"}>
                     <tbody>
                         <tr className={"border-0 vertical-header"}>
@@ -143,7 +183,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                         })}
                     </tbody>
                 </table>
-            </div>
+            </div>}
         </div>
     </div>
 }
