@@ -2,7 +2,7 @@ import * as React from "react";
 import type {Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
-import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting";
+import {COLOR_CLASS_MAP_DARK, COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting";
 import InfoIcon from "../assets/info.svg?react";
 import type {Expansion} from "../types/expansion";
 
@@ -105,6 +105,7 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                                     {colors.map((color, colIndex) => {
                                         const isColHighlighted = highlight.col === colIndex
                                         const colHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.color] ?? ""
+                                        const inputColor = COLOR_CLASS_MAP_DARK[color.color] ?? ""
 
                                         return <td
                                             key={color.color.toLowerCase()}
@@ -123,7 +124,7 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                                                     ? (<input
                                                         type={"number"}
                                                         id={`${faction.short}-${color.color.toLowerCase()}`}
-                                                        className={"input w-20 bg-base-200"}
+                                                        className={`input w-20 ${inputColor}`}
                                                         min={0}
                                                         defaultValue={scoring.find(s => s.faction.short === faction.short)?.scores[color.color]}
                                                     />)

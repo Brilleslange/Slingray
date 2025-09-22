@@ -20,6 +20,17 @@ export const COLOR_CLASS_MAP_OPAQUE: Record<string, string> = {
     "Black": "bg-gray-400",
 }
 
+export const COLOR_CLASS_MAP_DARK: Record<string, string> = {
+    "Red": "bg-red-950/50",
+    "Orange": "bg-orange-950/50",
+    "Yellow": "bg-yellow-950/50",
+    "Green": "bg-green-950/50",
+    "Blue": "bg-blue-950/50",
+    "Purple": "bg-purple-950/50",
+    "Pink": "bg-pink-950/50",
+    "Black": "bg-gray-950/50"
+}
+
 export type Highlight = {
     row: number | null,
     col: number | null,
