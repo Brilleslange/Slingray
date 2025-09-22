@@ -3,6 +3,7 @@ import type {Assignment} from "../types/assignment";
 import {type Color} from "../types/color";
 import {type Expansion} from "../types/expansion";
 import type {Score} from "../types/score";
+import {compareFactions} from "../types/faction";
 
 export async function assign(
     scoring: Scoring[],
@@ -48,7 +49,7 @@ export async function assign(
     if (assignments.length === 0) {
         throw new AssignmentError("No valid assignments found")
     } else {
-        return assignments[Math.floor(Math.random() * assignments.length)]
+        return assignments[Math.floor(Math.random() * assignments.length)].sort((a, b) => compareFactions(a.faction, b.faction))
     }
 }
 
