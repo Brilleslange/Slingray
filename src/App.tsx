@@ -75,15 +75,13 @@ function App() {
                     const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
                     if (isValidScoring(parsedScoring)) {
                         setScoring(parsedScoring);
-                    } else {
-                        setScoring(DEFAULT_SCORING);
+                        return
                     }
                 }
+                setScoring(DEFAULT_SCORING)
             } catch {
                 setScoring(DEFAULT_SCORING);
             }
-
-
         }
 
         function isValidScoring(retrievedScoring: Scoring[]): boolean {
