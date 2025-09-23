@@ -1,4 +1,4 @@
-import {EXPANSIONS} from "./expansion";
+import {EXPANSIONS} from "./expansion.ts";
 
 export const COLORS = {
     RED: { color: "Red", expansion: EXPANSIONS.BASE },

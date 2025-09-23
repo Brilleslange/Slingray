@@ -2,9 +2,9 @@ import * as React from "react";
 import type {Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
-import {COLOR_CLASS_MAP_DARK, COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting";
+import {COLOR_CLASS_MAP_DARK, COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts";
 import InfoIcon from "../assets/info.svg?react";
-import type {Expansion} from "../types/expansion";
+import type {Expansion} from "../types/expansion.ts";
 
 type Props = {
     expansionStates: Map<Expansion, boolean>,
@@ -144,13 +144,13 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                             ? (<>
                                 <button
                                     className={"btn btn-neutral"}
-                                    onClick={_ => saveScoring()}
+                                    onClick={() => saveScoring()}
                                 >
                                     Save
                                 </button>
                                 <button
                                     className={"btn"}
-                                    onClick={_ => setEditing(false)}
+                                    onClick={() => setEditing(false)}
                                 >
                                     Cancel
                                 </button>
@@ -158,13 +158,13 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
                             : (<>
                                 <button
                                     className={"btn btn-neutral"}
-                                    onClick={_ => setEditing(true)}
+                                    onClick={() => setEditing(true)}
                                 >
                                     Edit
                                 </button>
                                 <button
                                     className={"btn"}
-                                    onClick={_ => resetScoring()}
+                                    onClick={() => resetScoring()}
                                 >
                                     Restore default
                                 </button>

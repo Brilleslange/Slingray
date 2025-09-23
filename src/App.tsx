@@ -8,11 +8,11 @@ import {DEFAULT_SCORING, type Scoring} from "./types/scoring.ts";
 import {type Expansion, EXPANSIONS} from "./types/expansion.ts";
 import {Factions} from "./components/Factions.tsx";
 import Footer from './components/Footer.tsx';
-import {Results} from "./components/Results";
-import Help from "./components/Help";
-import type {Assignment} from "./types/assignment";
-import {Config} from "./components/Config";
-import {assign} from "./utils/calculate";
+import {Results} from "./components/Results.tsx";
+import Help from "./components/Help.tsx";
+import type {Assignment} from "./types/assignment.ts";
+import {Config} from "./components/Config.tsx";
+import {assign} from "./utils/calculate.ts";
 
 function App() {
     const expansions: Expansion[] = Object.values(EXPANSIONS)

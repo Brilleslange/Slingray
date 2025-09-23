@@ -1,6 +1,6 @@
 import * as React from "react";
-import type {Assignment} from "../types/assignment";
-import {COLOR_CLASS_MAP_OPAQUE} from "../styling/TableHighlighting";
+import type {Assignment} from "../types/assignment.ts";
+import {COLOR_CLASS_MAP_OPAQUE} from "../styling/TableHighlighting.ts";
 import Cog from "../assets/cog.svg?react";
 
 type Props = {
@@ -40,7 +40,7 @@ export const Results: React.FC<Props> = ({getResults, results, loading, error, f
                     <div className={"justify-self-center md:justify-self-start"}>
                         <button
                             className={"btn btn-neutral"}
-                            onClick={_ => {
+                            onClick={() => {
                                 resultsRef.current!.checked = false;
                                 factionsRef.current!.checked = true;
                             }}
@@ -60,7 +60,7 @@ export const Results: React.FC<Props> = ({getResults, results, loading, error, f
                     <div className={"justify-self-center md:justify-self-end"}>
                         <button
                             className={"btn btn-neutral"}
-                            onClick={_ => {
+                            onClick={() => {
                                 resultsRef.current!.checked = false;
                                 configRef.current!.checked = true;
                             }}

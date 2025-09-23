@@ -3,7 +3,7 @@ import * as React from "react";
 import {type ChangeEvent, useEffect} from "react";
 import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts"
 import InfoIcon from "../assets/info.svg?react";
-import type {Expansion} from "../types/expansion";
+import type {Expansion} from "../types/expansion.ts";
 
 type Props = {
     expansionStates: Map<Expansion, boolean>,

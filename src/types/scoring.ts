@@ -1,5 +1,5 @@
-import {type Faction, FACTIONS} from "./faction";
-import {type Color} from "./color";
+import {type Faction, FACTIONS} from "./faction.ts";
+import {type Color} from "./color.ts";
 
 export type Scoring = {
     faction: Faction;

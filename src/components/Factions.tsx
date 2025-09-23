@@ -2,7 +2,7 @@ import * as React from "react";
 import {type ChangeEvent, useRef} from "react";
 import type {Faction} from "../types/faction.ts";
 import Cog from "../assets/cog.svg?react";
-import type {Expansion} from "../types/expansion";
+import type {Expansion} from "../types/expansion.ts";
 
 type Props = {
     expansionStates: Map<Expansion, boolean>,
@@ -112,7 +112,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                     <div className={"justify-self-center"}>
                         <button
                             className={"btn btn-neutral"}
-                            onClick={_ => {
+                            onClick={() => {
                                 factionsRef.current!.checked = false;
                                 resultsRef.current!.checked = true;
                                 getResults();
@@ -124,7 +124,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                     <div className={"justify-self-center md:justify-self-end"}>
                         <button
                             className={"btn btn-neutral"}
-                            onClick={_ => {
+                            onClick={() => {
                                 factionsRef.current!.checked = false;
                                 configRef.current!.checked = true;
                             }}

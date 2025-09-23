@@ -1,4 +1,4 @@
-import {EXPANSIONS} from "./expansion";
+import {EXPANSIONS} from "./expansion.ts";
 
 export const FACTIONS = {
     ARBOREC: { long: "The Arborec", short: "arborec", expansion: EXPANSIONS.BASE },

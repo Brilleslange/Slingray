@@ -1,9 +1,9 @@
-import type {Scoring} from "../types/scoring";
-import type {Assignment} from "../types/assignment";
-import {type Color} from "../types/color";
-import {type Expansion} from "../types/expansion";
-import type {Score} from "../types/score";
-import {compareFactions} from "../types/faction";
+import type {Scoring} from "../types/scoring.ts";
+import type {Assignment} from "../types/assignment.ts";
+import {type Color} from "../types/color.ts";
+import {type Expansion} from "../types/expansion.ts";
+import type {Score} from "../types/score.ts";
+import {compareFactions} from "../types/faction.ts";
 
 export async function assign(
     scoring: Scoring[],

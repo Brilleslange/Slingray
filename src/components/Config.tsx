@@ -1,11 +1,11 @@
 import * as React from "react";
-import {Options} from "./Options";
-import {ExcludeColors} from "./ExcludeColors";
-import {Scores} from "./Scores";
-import type {Expansion} from "../types/expansion";
-import type {Color} from "../types/color";
-import type {Scoring} from "../types/scoring";
-import type {Faction} from "../types/faction";
+import {Options} from "./Options.tsx";
+import {ExcludeColors} from "./ExcludeColors.tsx";
+import {Scores} from "./Scores.tsx";
+import type {Expansion} from "../types/expansion.ts";
+import type {Color} from "../types/color.ts";
+import type {Scoring} from "../types/scoring.ts";
+import type {Faction} from "../types/faction.ts";
 
 type Props = {
     expansions: Expansion[];
@@ -51,7 +51,7 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
                     <div className={"justify-self-center md:justify-self-start"}>
                         <button
                             className={"btn btn-neutral"}
-                            onClick={_ => {
+                            onClick={() => {
                                 configRef.current!.checked = false;
                                 factionsRef.current!.checked = true;
                             }}
@@ -62,7 +62,7 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
                     <div className={"justify-self-center"}>
                         <button
                             className={"btn btn-neutral"}
-                            onClick={_ => {
+                            onClick={() => {
                                 configRef.current!.checked = false;
                                 resultsRef.current!.checked = true;
                                 getResults();
