@@ -31,4 +31,4 @@ jobs:
           user: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           localDir: dist
-          remoteDir: /slingray/
+          remoteDir: /slingray
