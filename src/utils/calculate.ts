@@ -11,6 +11,7 @@ export async function assign(
     colors: Color[],
     excludedColorPairs: [Color, Color][]
 ): Promise<Assignment[]> {
+    console.log(`Calculating factions: ${scoring.map(s => s.faction.long)}`)
     const factions = scoring.map(s => s.faction)
     if (factions.length < 3) {
         throw new AssignmentError("Must select at least 3 factions")

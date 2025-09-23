@@ -37,6 +37,7 @@ function App() {
         setResultsError("");
 
         try {
+            console.log(`Selected factions: ${selectedFactions.sort((a, b) => compareFactions(a, b)).map(f => f.long)}`)
             const assignment = await Promise.resolve(assign(
                 scoring.filter(s =>
                     selectedFactions.filter(f =>
@@ -72,14 +73,18 @@ function App() {
 
                 const scoringFromLocalStorage = localStorage.getItem("scoring");
                 if (scoringFromLocalStorage) {
+                    console.log("Scoring found in local storage")
                     const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
                     if (isValidScoring(parsedScoring)) {
+                        console.log("Scoring is valid, setting scoring from local storage")
                         setScoring(parsedScoring);
                         return
                     }
                 }
+                console.log("Setting default scoring")
                 setScoring(DEFAULT_SCORING)
             } catch {
+                console.log("Error while setting scoring, setting default scoring")
                 setScoring(DEFAULT_SCORING);
             }
         }
