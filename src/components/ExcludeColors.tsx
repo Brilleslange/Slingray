@@ -3,10 +3,9 @@ import * as React from "react";
 import {type ChangeEvent, useEffect} from "react";
 import {COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts"
 import InfoIcon from "../assets/info.svg?react";
-import type {Expansion} from "../types/expansion.ts";
 
 type Props = {
-    expansionStates: Map<Expansion, boolean>,
+    expansionStates: Map<string, boolean>,
     colors: Color[],
     setExcludedColors: React.Dispatch<React.SetStateAction<[Color, Color][]>>
 }
@@ -15,7 +14,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
     const [checked, setChecked] = React.useState<boolean[][]>([])
 
-    const isAllowedColor = (color: Color) => expansionStates.get(color.expansion) ?? false;
+    const isAllowedColor = (color: Color) => expansionStates.get(color.expansion.short) ?? false;
 
     const mirrorCheck = (e: ChangeEvent<HTMLInputElement>, row: number, col: number) => {
         const newValue = e.target.checked

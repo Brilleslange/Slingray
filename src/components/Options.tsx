@@ -5,17 +5,16 @@ import InfoIcon from "../assets/info.svg?react";
 
 type Props = {
     expansions: Expansion[];
-    expansionStates: Map<Expansion, boolean>;
-    setExpansionStates: React.Dispatch<React.SetStateAction<Map<Expansion, boolean>>>;
+    expansionStates: Map<string, boolean>;
+    setExpansionStates: React.Dispatch<React.SetStateAction<Map<string, boolean>>>;
 }
 
 export const Options: React.FC<Props> = ({expansions, expansionStates, setExpansionStates}) => {
     const toggleExpansion = (e: ChangeEvent<HTMLInputElement>, expansion: Expansion) => {
         setExpansionStates(prev => {
             const next = new Map(prev)
-            next.set(expansion, e.target.checked)
+            next.set(expansion.short, e.target.checked)
             localStorage.setItem(`expansions.${expansion.short}`, e.target.checked.toString())
-            console.log(`Expansion states: ${JSON.stringify(next)}`)
             return next
         })
     }
@@ -50,7 +49,7 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
                                                     className={"checkbox"}
                                                     name={"expansions"}
                                                     id={expansion.short}
-                                                    checked={expansionStates.get(expansion) ?? true}
+                                                    checked={expansionStates.get(expansion.short) ?? true}
                                                     onChange={e => toggleExpansion(e, expansion)}
                                                 />
                                                 {expansion.long}

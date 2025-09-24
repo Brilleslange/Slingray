@@ -9,8 +9,8 @@ import type {Faction} from "../types/faction.ts";
 
 type Props = {
     expansions: Expansion[];
-    expansionStates: Map<Expansion, boolean>;
-    setExpansionStates: React.Dispatch<React.SetStateAction<Map<Expansion, boolean>>>;
+    expansionStates: Map<string, boolean>;
+    setExpansionStates: React.Dispatch<React.SetStateAction<Map<string, boolean>>>;
     factions: Faction[]
     colors: Color[],
     setExcludedColors: React.Dispatch<React.SetStateAction<[Color, Color][]>>

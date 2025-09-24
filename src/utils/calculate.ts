@@ -1,13 +1,12 @@
 import type {Scoring} from "../types/scoring.ts";
 import type {Assignment} from "../types/assignment.ts";
 import {type Color} from "../types/color.ts";
-import {type Expansion} from "../types/expansion.ts";
 import type {Score} from "../types/score.ts";
 import {compareFactions} from "../types/faction.ts";
 
 export async function assign(
     scoring: Scoring[],
-    expansionStates: Map<Expansion, boolean>,
+    expansionStates: Map<string, boolean>,
     colors: Color[],
     excludedColorPairs: [Color, Color][]
 ): Promise<Assignment[]> {
@@ -16,7 +15,7 @@ export async function assign(
         throw new AssignmentError("Must select at least 3 factions")
     }
 
-    const allowedColors = colors.filter(c => expansionStates.get(c.expansion) ?? false)
+    const allowedColors = colors.filter(c => expansionStates.get(c.expansion.short) ?? false)
     if (factions.length > allowedColors.length) {
         throw new AssignmentError(`Cannot select more than ${allowedColors.length} factions`)
     }

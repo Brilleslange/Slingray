@@ -19,7 +19,7 @@ function App() {
     const colors: Color[] = Object.values(COLORS)
     const factions: Faction[] = Object.values(FACTIONS).sort((a, b) => compareFactions(a, b))
 
-    const [expansionStates, setExpansionStates] = useState<Map<Expansion, boolean>>(new Map());
+    const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
     const [excludedColors, setExcludedColors] = useState<[Color, Color][]>([])
     const [selectedFactions, setSelectedFactions] = useState<Faction[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
@@ -37,11 +37,10 @@ function App() {
         setResultsError("");
 
         try {
-            console.log(`Selected factions: ${selectedFactions.sort((a, b) => compareFactions(a, b)).map(f => f.long)}`)
             const assignment = await Promise.resolve(assign(
                 scoring.filter(s =>
                     selectedFactions.filter(f =>
-                        expansionStates.get(f.expansion) ?? false
+                        expansionStates.get(f.expansion.short) ?? false
                     ).includes(s.faction)
                 ),
                 expansionStates,
@@ -64,13 +63,11 @@ function App() {
     useEffect(() => {
         async function initializeApp() {
             try {
-                console.log(`Expansions: ${expansions.map(e => e.long).join(", ")}`)
                 const newExpansionStates = new Map(expansions.map(expansion =>
                     expansion.short === "base"
-                        ? [expansion, true]
-                        : [expansion, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
+                        ? [expansion.short, true]
+                        : [expansion.short, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
                 ))
-                console.log(`Expansion states: ${JSON.stringify(newExpansionStates)}`)
                 setExpansionStates(newExpansionStates);
 
                 const scoringFromLocalStorage = localStorage.getItem("scoring");

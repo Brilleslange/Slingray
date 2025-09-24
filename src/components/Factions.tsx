@@ -2,10 +2,9 @@ import * as React from "react";
 import {type ChangeEvent, useRef} from "react";
 import type {Faction} from "../types/faction.ts";
 import Cog from "../assets/cog.svg?react";
-import type {Expansion} from "../types/expansion.ts";
 
 type Props = {
-    expansionStates: Map<Expansion, boolean>,
+    expansionStates: Map<string, boolean>,
     factions: Faction[]
     selectedFactions: Faction[]
     setSelectedFactions: React.Dispatch<React.SetStateAction<Faction[]>>,
@@ -17,7 +16,7 @@ type Props = {
 
 export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFactions, setSelectedFactions, getResults, factionsRef, resultsRef, configRef}) => {
     const randomCountRef = useRef<HTMLInputElement>(null)
-    const availableFactions = factions.filter(faction => expansionStates.get(faction.expansion))
+    const availableFactions = factions.filter(faction => expansionStates.get(faction.expansion.short))
 
     const toggleFaction = (e: ChangeEvent<HTMLInputElement>) => {
         const id = e.target.id
@@ -62,7 +61,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                 <div className={"grid w-full gap-3 [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]"}>
                     {factions.map(faction =>
                         <label
-                            className={`label ${expansionStates.get(faction.expansion) ? "" : "hidden"}`}
+                            className={`label ${expansionStates.get(faction.expansion.short) ? "" : "hidden"}`}
                             key={faction.short}
                         >
                             <input

@@ -4,10 +4,9 @@ import type {Color} from "../types/color.ts";
 import type {Faction} from "../types/faction.ts";
 import {COLOR_CLASS_MAP_DARK, COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts";
 import InfoIcon from "../assets/info.svg?react";
-import type {Expansion} from "../types/expansion.ts";
 
 type Props = {
-    expansionStates: Map<Expansion, boolean>,
+    expansionStates: Map<string, boolean>,
     colors: Color[],
     factions: Faction[],
     scoring: Scoring[],
@@ -17,8 +16,8 @@ type Props = {
 export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scoring, setScoring}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
 
-    const isAllowedColor = (color: Color) => expansionStates.get(color.expansion);
-    const isAllowedFaction = (faction: Faction) => expansionStates.get(faction.expansion);
+    const isAllowedColor = (color: Color) => expansionStates.get(color.expansion.short);
+    const isAllowedFaction = (faction: Faction) => expansionStates.get(faction.expansion.short);
 
     const [editing, setEditing] = React.useState(false);
 
