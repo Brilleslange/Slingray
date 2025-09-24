@@ -37,12 +37,11 @@ function App() {
         setResultsError("");
 
         try {
-            console.log(`Selected factions: ${selectedFactions.sort((a, b) => compareFactions(a, b)).map(f => f.long)}`)
             const assignment = await Promise.resolve(assign(
                 scoring.filter(s =>
                     selectedFactions.filter(f =>
-                        expansionStates.get(f.expansion.short) ?? false
-                    ).includes(s.faction)
+                        expansionStates.get(f.expansion.short) === true
+                    ).map(f => f.short).includes(s.faction.short)
                 ),
                 expansionStates,
                 colors,
@@ -64,15 +63,12 @@ function App() {
     useEffect(() => {
         async function initializeApp() {
             try {
-                console.log(`Expansions: ${expansions.map(e => e.long).join(", ")}`)
                 const newExpansionStates = new Map(expansions.map(expansion => {
                     const value = expansion.short === "base"
                         ? true
                         : localStorage.getItem(`expansions.${expansion.short}`) !== "false"
-                    console.log(`Adding ${expansion.short}: ${value}`);
                     return [expansion.short, value]
                 }))
-                console.log(`Expansion states: ${[...newExpansionStates.entries()]}`)
                 setExpansionStates(newExpansionStates);
 
                 const scoringFromLocalStorage = localStorage.getItem("scoring");
