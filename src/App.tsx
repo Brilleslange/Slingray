@@ -65,11 +65,13 @@ function App() {
         async function initializeApp() {
             try {
                 console.log(`Expansions: ${expansions.map(e => e.long).join(", ")}`)
-                const newExpansionStates = new Map(expansions.map((expansion: Expansion) =>
-                    expansion.short === "base"
-                        ? [expansion, true]
-                        : [expansion, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
-                ))
+                const newExpansionStates = new Map(expansions.map((expansion: Expansion) => {
+                    if (expansion.short === "base") {
+                        return [expansion, true]
+                    } else {
+                        return [expansion, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
+                    }
+                }))
                 console.log(`Expansion states: ${JSON.stringify(newExpansionStates)}`)
                 setExpansionStates(newExpansionStates);
 
