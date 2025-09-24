@@ -1,5 +1,5 @@
 import * as React from "react";
-import {type ChangeEvent, useRef} from "react";
+import {type ChangeEvent, useState} from "react";
 import type {Faction} from "../types/faction.ts";
 import Cog from "../assets/cog.svg?react";
 
@@ -14,9 +14,25 @@ type Props = {
     configRef: React.RefObject<HTMLInputElement | null>
 }
 
+
 export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFactions, setSelectedFactions, getResults, factionsRef, resultsRef, configRef}) => {
-    const randomCountRef = useRef<HTMLInputElement>(null)
+    const [randomCount, setRandomCount] = useState(0)
     const availableFactions = factions.filter(faction => expansionStates.get(faction.expansion.short))
+
+    const RandomizeFactionsInput = (() => {
+        return <input
+            type={"number"}
+            inputMode={"numeric"}
+            className={"input w-20 bg-base-200"}
+            name={"random-count"}
+            min={0}
+            max={availableFactions.length}
+            step={1}
+            value={randomCount}
+            onChange={(e) => setRandomCount(Number(e.target.value))}
+            required={true}
+        />;
+    })
 
     const toggleFaction = (e: ChangeEvent<HTMLInputElement>) => {
         const id = e.target.id
@@ -37,10 +53,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
     }
 
     function randomizeFactions() {
-        let value = Number(randomCountRef.current?.valueAsNumber);
-        if (!Number.isFinite(value)) value = 0;
-        value = Math.trunc(value);
-        const count = Math.max(0, Math.min(value, availableFactions.length));
+        const count = Math.max(0, Math.min(Math.trunc(randomCount), availableFactions.length));
 
         const randomizedFactions = availableFactions
         for (let i = randomizedFactions.length - 1; i > 0; i--) {
@@ -58,6 +71,27 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
         </div>
         <div className={"collapse-content"}>
             <div className={"flex flex-col gap-4 p-4"}>
+                <div className={"sm:hidden"}>
+                    <div
+                        className={"tooltip tooltip-warning tooltip-open"}
+                        data-tip={"Warning: Any selected factions may be deselected."}
+                    >
+                        <form
+                            className={"flex gap-1 justify-start"}
+                            onSubmit={(e) => {
+                                e.preventDefault()
+                                randomizeFactions()
+                            }}
+                        >
+                            <RandomizeFactionsInput />
+                            <input
+                                type={"submit"}
+                                className={"btn btn-neutral"}
+                                value={"Randomize factions"}
+                            />
+                        </form>
+                    </div>
+                </div>
                 <div className={"grid w-full gap-3 [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]"}>
                     {factions.map(faction =>
                         <label
@@ -79,24 +113,14 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                 <div className={"grid grid-cols-1 md:grid-cols-3 items-center gap-2"}>
                     <form
                         className={"justify-self-center md:justify-self-start " +
+                            "hidden sm:block " +
                             "flex gap-1 justify-start"}
                         onSubmit={(e) => {
                             e.preventDefault()
                             randomizeFactions()
                         }}
                     >
-                        <input
-                            type={"number"}
-                            className={"input w-20 bg-base-200"}
-                            name={"random-count"}
-                            min={0}
-                            max={availableFactions.length}
-                            defaultValue={0}
-                            step={1}
-                            inputMode={"numeric"}
-                            ref={randomCountRef}
-                            required={true}
-                        />
+                        <RandomizeFactionsInput />
                         <div
                             className={"tooltip tooltip-right tooltip-warning"}
                             data-tip={"Warning: Any selected factions may be deselected."}
@@ -120,7 +144,8 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                             Assign colors
                         </button>
                     </div>
-                    <div className={"justify-self-center md:justify-self-end"}>
+                    <div className={"hidden sm:block " +
+                        "justify-self-center md:justify-self-end"}>
                         <button
                             className={"btn btn-neutral"}
                             onClick={() => {
@@ -128,7 +153,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                                 configRef.current!.checked = true;
                             }}
                         >
-                             <Cog/> Configure
+                            <Cog/> Configure
                         </button>
                     </div>
                 </div>
