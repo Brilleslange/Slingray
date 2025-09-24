@@ -10,13 +10,12 @@ type Props = {
 }
 
 export const Options: React.FC<Props> = ({expansions, expansionStates, setExpansionStates}) => {
-    const toggleExpansion = (e: ChangeEvent<HTMLInputElement>) => {
-        const id = e.target.id
+    const toggleExpansion = (e: ChangeEvent<HTMLInputElement>, expansion: Expansion) => {
         setExpansionStates(prev => {
             const next = new Map(prev)
-            const expansion = expansions.find(e => e.short === id)!
             next.set(expansion, e.target.checked)
-            localStorage.setItem(`expansions.${id}`, e.target.checked.toString())
+            localStorage.setItem(`expansions.${expansion.short}`, e.target.checked.toString())
+            console.log(`Expansion states: ${JSON.stringify(next)}`)
             return next
         })
     }
@@ -52,7 +51,7 @@ export const Options: React.FC<Props> = ({expansions, expansionStates, setExpans
                                                     name={"expansions"}
                                                     id={expansion.short}
                                                     checked={expansionStates.get(expansion) ?? true}
-                                                    onChange={toggleExpansion}
+                                                    onChange={e => toggleExpansion(e, expansion)}
                                                 />
                                                 {expansion.long}
                                             </label>

@@ -69,22 +69,19 @@ function App() {
                         ? [expansion, true]
                         : [expansion, localStorage.getItem(`expansions.${expansion.short}`) !== "false"]
                 ))
+                console.log(`Expansion states: ${JSON.stringify(newExpansionStates)}`)
                 setExpansionStates(newExpansionStates);
 
                 const scoringFromLocalStorage = localStorage.getItem("scoring");
                 if (scoringFromLocalStorage) {
-                    console.log("Scoring found in local storage")
                     const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
                     if (isValidScoring(parsedScoring)) {
-                        console.log("Scoring is valid, setting scoring from local storage")
                         setScoring(parsedScoring);
                         return
                     }
                 }
-                console.log("Setting default scoring")
                 setScoring(DEFAULT_SCORING)
             } catch {
-                console.log("Error while setting scoring, setting default scoring")
                 setScoring(DEFAULT_SCORING);
             }
         }
