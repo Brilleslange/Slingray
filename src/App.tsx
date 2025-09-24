@@ -64,6 +64,7 @@ function App() {
     useEffect(() => {
         async function initializeApp() {
             try {
+                console.log(`Expansions: ${expansions.map(e => e.long).join(", ")}`)
                 const newExpansionStates = new Map(expansions.map((expansion: Expansion) =>
                     expansion.short === "base"
                         ? [expansion, true]
