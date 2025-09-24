@@ -56,7 +56,15 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scor
         <div className={"collapse-title"}>
             Color weighting
         </div>
-        <div className={"collapse-content"}>
+        <div className={"collapse-content sm:hidden"}>
+            <div className={"alert"}>
+                <InfoIcon />{
+                "Unfortunately, editing color weighting is not available on small devices. " +
+                "Please use a larger screen to edit the color weighting."
+            }
+            </div>
+        </div>
+        <div className={"collapse-content hidden sm:block"}>
             <div className={"alert"}>
                 <InfoIcon />{
                     "The higher the score, the more likely the color is to be assigned to that faction. " +

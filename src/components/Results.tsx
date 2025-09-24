@@ -37,7 +37,8 @@ export const Results: React.FC<Props> = ({getResults, results, loading, error, f
                     </div>
                 }
                 <div className={"grid grid-cols-1 md:grid-cols-3 items-center gap-2"}>
-                    <div className={"justify-self-center md:justify-self-start"}>
+                    <div className={"hidden sm:block " +
+                        "justify-self-center md:justify-self-start"}>
                         <button
                             className={"btn btn-neutral"}
                             onClick={() => {
@@ -57,7 +58,8 @@ export const Results: React.FC<Props> = ({getResults, results, loading, error, f
                             Assign colors
                         </button>
                     </div>
-                    <div className={"justify-self-center md:justify-self-end"}>
+                    <div className={"hidden sm:block " +
+                        "justify-self-center md:justify-self-end"}>
                         <button
                             className={"btn btn-neutral"}
                             onClick={() => {

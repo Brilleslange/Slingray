@@ -115,7 +115,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                 </div>
             </div>
             {checked.length > 0 && <div className={"flex justify-center"}>
-                <table className={"table table-auto w-auto"}>
+                <table className={"table table-auto w-auto table-xs sm:table-md"}>
                     <tbody>
                         <tr className={"border-0 vertical-header"}>
                             <th/>
@@ -126,7 +126,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                                 return <th
                                     key={color.color}
                                     scope={"col"}
-                                    className={`${isAllowedColor(color) ? "" : "hidden"} ${isHighlighted ? highlightColor : ""}`}
+                                    className={`!pl-0 !pr-0 ${isAllowedColor(color) ? "" : "hidden"} ${isHighlighted ? highlightColor : ""}`}
                                     onMouseEnter={() => setHighlight({row: null, col: colorIndex})}
                                     onMouseLeave={() => setHighlight({row: null, col: null})}
                                 >
@@ -144,7 +144,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                             >
                                 <th
                                     scope={"row"}
-                                    className={`${isRowHighlighted ? rowHighlightColor : ""}`}
+                                    className={`!pt-0 !pb-0 ${isRowHighlighted ? rowHighlightColor : ""}`}
                                     onMouseEnter={() => setHighlight({row: rowIndex, col: null})}
                                     onMouseLeave={() => setHighlight({row: null, col: null})}
                                 >
@@ -156,7 +156,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
 
                                     return <td
                                         key={colColor.color}
-                                        className={`p-3 relative ${isAllowedColor(colColor) ? "" : "hidden"} isolate`}
+                                        className={`!p-1 sm:!p-3 relative ${isAllowedColor(colColor) ? "" : "hidden"} isolate`}
                                         onMouseEnter={() => setHighlight({row: rowIndex, col: colIndex})}
                                         onMouseLeave={() => setHighlight({row: null, col: null})}
                                     >

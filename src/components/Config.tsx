@@ -47,7 +47,7 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
                     scoring={scoring}
                     setScoring={setScoring}
                 />
-                <div className={"grid grid-cols-1 md:grid-cols-3 items-center gap-2"}>
+                <div className={"hidden sm:grid grid-cols-1 md:grid-cols-3 items-center gap-2"}>
                     <div className={"justify-self-center md:justify-self-start"}>
                         <button
                             className={"btn btn-neutral"}
