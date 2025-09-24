@@ -32,6 +32,21 @@ export default function Help() {
                 <div className={"collapse bg-base-200"}>
                     <input type={"checkbox"}/>
                     <div className={"collapse-title"}>
+                        How does it work?
+                    </div>
+                    <div className={"collapse-content text-sm "}> {
+                        "Each faction has a score for each color. " +
+                        "The score is based on how prominent the color is on the faction's tokens and sheet. " +
+                        "When assigning colors, the application finds all possible color assignments. " +
+                        "For each assignment, it finds what score each faction has for the color they have been assigned, " +
+                        "and adds them together. The assignment with the highest sum is selected. " +
+                        "If there are multiple assignments with the same highest sum, a random one is selected. " +
+                        "In that case, pressing the Assign colors button multiple times may result in different assignments."
+                    } </div>
+                </div>
+                <div className={"collapse bg-base-200"}>
+                    <input type={"checkbox"}/>
+                    <div className={"collapse-title"}>
                         I don't have all the expansions, what do I do?
                     </div>
                     <div className={"collapse-content text-sm"}>{
