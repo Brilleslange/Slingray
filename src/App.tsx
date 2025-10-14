@@ -43,6 +43,7 @@ function App() {
                         expansionStates.get(f.expansion.short) === true
                     ).map(f => f.short).includes(s.faction.short)
                 ),
+                expansions,
                 expansionStates,
                 colors,
                 excludedColors
