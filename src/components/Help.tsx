@@ -84,6 +84,17 @@ export default function Help() {
                         "The higher the score, the more likely the color."
                     }</div>
                 </div>
+                <div className={"collapse bg-base-200"}>
+                    <input type={"checkbox"}/>
+                    <div className={"collapse-title"}>
+                        I'm playing with Thunder's Edge, can I choose whether players can use gray or not?
+                    </div>
+                    <div className={"collapse-content text-sm"}>{
+                        "Absolutely! If you open the Options accordion under Configuration, " +
+                        "you can choose if you want to always assign gray to The Firmanent's units, " +
+                        "or if they can have any color, freeing up the gray color for your players."
+                    }</div>
+                </div>
             </div>
         </div>
     </div>)

@@ -14,6 +14,7 @@ import type {Assignment} from "./types/assignment.ts";
 import {Config} from "./components/Config.tsx";
 import {assign} from "./utils/calculate.ts";
 import {FRACTURE_COLOR, FRACTURE_GRAY} from "./components/Options.tsx";
+import InfoIcon from "./assets/info.svg?react";
 
 function App() {
     const expansions: Expansion[] = Object.values(EXPANSIONS)
@@ -111,6 +112,20 @@ function App() {
         <div className="flex flex-col h-full">
             <Header />
             <div className={"flex flex-col gap-2 ml-6 mr-6 grow"}>
+                <div className={"alert alert-info mb-2"}>
+                    <InfoIcon />
+                    <div className={"flex flex-col gap-2"}>
+                        <p>{
+                            "Thunder's Edge functionality has been added, including 5 new factions and 1 new color, " +
+                            "and some additional color assignment options! " +
+                            "However, default color weights are not available yet (I am working on it!). "
+                        }</p>
+                        <p>{
+                            "You can add your own color weights by going to Configuration > Color weighting and pressing the Edit button. " +
+                            "Otherwise, Thunder's Edge factions will be assigned a random color that has not been assigned to another faction yet."
+                        }</p>
+                    </div>
+                </div>
                 <Help />
                 <Factions
                     expansionStates={expansionStates}
