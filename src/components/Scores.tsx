@@ -1,7 +1,7 @@
 import * as React from "react";
 import type {Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
-import type {Faction} from "../types/faction.ts";
+import {type Faction, FACTIONS} from "../types/faction.ts";
 import {COLOR_CLASS_MAP_DARK, COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts";
 import InfoIcon from "../assets/info.svg?react";
 
@@ -9,15 +9,20 @@ type Props = {
     expansionStates: Map<string, boolean>,
     colors: Color[],
     factions: Faction[],
+    firmamentObsidianTwoColors: boolean,
     scoring: Scoring[],
     setScoring: React.Dispatch<React.SetStateAction<Scoring[]>>
 }
 
-export const Scores: React.FC<Props> = ({expansionStates, colors, factions, scoring, setScoring}) => {
+export const Scores: React.FC<Props> = ({expansionStates, colors, factions, firmamentObsidianTwoColors, scoring, setScoring}) => {
     const [highlight, setHighlight] = React.useState<Highlight>({row: null, col: null});
 
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion.short);
-    const isAllowedFaction = (faction: Faction) => expansionStates.get(faction.expansion.short);
+    const isAllowedFaction = ((faction: Faction) =>
+        expansionStates.get(faction.expansion.short) && (
+            (firmamentObsidianTwoColors && faction.short !== FACTIONS.FIRM_OBS.short) ||
+            (!firmamentObsidianTwoColors && faction.short !== FACTIONS.FIRMAMENT.short && faction.short !== FACTIONS.OBSIDIAN.short)
+    ));
 
     const [editing, setEditing] = React.useState(false);
 

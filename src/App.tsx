@@ -20,6 +20,8 @@ function App() {
     const factions: Faction[] = Object.values(FACTIONS).sort((a, b) => compareFactions(a, b))
 
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
+    const [firmamentObsidianTwoColors, setFirmamentObsidianTwoColors] = useState<boolean>(false);
+    const [assignToFracture, setAssignToFracture] = useState<boolean>(false);
     const [excludedColors, setExcludedColors] = useState<[Color, Color][]>([])
     const [selectedFactions, setSelectedFactions] = useState<Faction[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
@@ -38,15 +40,13 @@ function App() {
 
         try {
             const assignment = await Promise.resolve(assign(
-                scoring.filter(s =>
-                    selectedFactions.filter(f =>
-                        expansionStates.get(f.expansion.short) === true
-                    ).map(f => f.short).includes(s.faction.short)
-                ),
+                selectedFactions,
+                scoring,
                 expansions,
                 expansionStates,
                 colors,
-                excludedColors
+                excludedColors,
+                firmamentObsidianTwoColors
             ))
             setResults(assignment);
         } catch (e) {
@@ -71,6 +71,9 @@ function App() {
                     return [expansion.short, value]
                 }))
                 setExpansionStates(newExpansionStates);
+
+                setFirmamentObsidianTwoColors(localStorage.getItem("firmament_obsidian_two_colors") === "true")
+                setAssignToFracture(localStorage.getItem("assign_to_fracture") === "true")
 
                 const scoringFromLocalStorage = localStorage.getItem("scoring");
                 if (scoringFromLocalStorage) {
@@ -120,6 +123,7 @@ function App() {
                 <Results
                     getResults={getResults}
                     results={results}
+                    assignToFracture={assignToFracture}
                     loading={loading}
                     error={resultsError}
                     factionsRef={factionsRef}
@@ -130,6 +134,10 @@ function App() {
                     expansions={expansions}
                     expansionStates={expansionStates}
                     setExpansionStates={setExpansionStates}
+                    firmamentObsidianTwoColors={firmamentObsidianTwoColors}
+                    setFirmamentObsidianTwoColors={setFirmamentObsidianTwoColors}
+                    assignToFracture={assignToFracture}
+                    setAssignToFracture={setAssignToFracture}
                     factions={factions}
                     colors={colors}
                     setExcludedColors={setExcludedColors}
