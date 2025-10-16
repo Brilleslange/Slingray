@@ -13,6 +13,7 @@ import Help from "./components/Help.tsx";
 import type {Assignment} from "./types/assignment.ts";
 import {Config} from "./components/Config.tsx";
 import {assign} from "./utils/calculate.ts";
+import {FRACTURE_COLOR, FRACTURE_GRAY} from "./components/Options.tsx";
 
 function App() {
     const expansions: Expansion[] = Object.values(EXPANSIONS)
@@ -21,7 +22,7 @@ function App() {
 
     const [expansionStates, setExpansionStates] = useState<Map<string, boolean>>(new Map());
     const [firmamentObsidianTwoColors, setFirmamentObsidianTwoColors] = useState<boolean>(false);
-    const [assignToFracture, setAssignToFracture] = useState<boolean>(false);
+    const [fractureColor, setFractureColor] = useState<string>(FRACTURE_GRAY);
     const [excludedColors, setExcludedColors] = useState<[Color, Color][]>([])
     const [selectedFactions, setSelectedFactions] = useState<Faction[]>([])
     const [scoring, setScoring] = useState<Scoring[]>([])
@@ -46,7 +47,8 @@ function App() {
                 expansionStates,
                 colors,
                 excludedColors,
-                firmamentObsidianTwoColors
+                firmamentObsidianTwoColors,
+                fractureColor
             ))
             setResults(assignment);
         } catch (e) {
@@ -73,7 +75,7 @@ function App() {
                 setExpansionStates(newExpansionStates);
 
                 setFirmamentObsidianTwoColors(localStorage.getItem("firmament_obsidian_two_colors") === "true")
-                setAssignToFracture(localStorage.getItem("assign_to_fracture") === "true")
+                setFractureColor(localStorage.getItem(FRACTURE_COLOR) ?? FRACTURE_GRAY)
 
                 const scoringFromLocalStorage = localStorage.getItem("scoring");
                 if (scoringFromLocalStorage) {
@@ -123,7 +125,7 @@ function App() {
                 <Results
                     getResults={getResults}
                     results={results}
-                    assignToFracture={assignToFracture}
+                    fractureColor={fractureColor}
                     loading={loading}
                     error={resultsError}
                     factionsRef={factionsRef}
@@ -136,8 +138,8 @@ function App() {
                     setExpansionStates={setExpansionStates}
                     firmamentObsidianTwoColors={firmamentObsidianTwoColors}
                     setFirmamentObsidianTwoColors={setFirmamentObsidianTwoColors}
-                    assignToFracture={assignToFracture}
-                    setAssignToFracture={setAssignToFracture}
+                    fractureColor={fractureColor}
+                    setFractureColor={setFractureColor}
                     factions={factions}
                     colors={colors}
                     setExcludedColors={setExcludedColors}

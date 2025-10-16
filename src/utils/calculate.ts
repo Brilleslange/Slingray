@@ -1,9 +1,10 @@
 import type {Scoring} from "../types/scoring.ts";
 import type {Assignment} from "../types/assignment.ts";
-import {type Color} from "../types/color.ts";
+import {type Color, COLORS} from "../types/color.ts";
 import type {Score} from "../types/score.ts";
 import {compareFactions, type Faction, FACTIONS} from "../types/faction.ts";
 import {type Expansion, EXPANSIONS} from "../types/expansion.ts";
+import {FRACTURE_GRAY} from "../components/Options.tsx";
 
 export async function assign(
     selectedFactions: Faction[],
@@ -13,6 +14,7 @@ export async function assign(
     colors: Color[],
     excludedColorPairs: [Color, Color][],
     firmamentObsidianTwoColors: boolean,
+    fractureColor: string,
 ): Promise<Assignment[]> {
     const factions = selectedFactions.filter(faction => expansionStates.get(faction.expansion.short))
     if (factions.length < 3) {
@@ -49,18 +51,34 @@ export async function assign(
         factions.push(FACTIONS.FRACTURE)
     }
 
-    const allowedColors = colors.filter(c => expansionStates.get(c.expansion.short) ?? false)
-    const excludedColors = excludedColorPairs.filter(c => c[0].color === c[1].color)
+    const allowedColors = colors.filter(c => expansionStates.get(c.expansion.short))
+    const excludedColors = excludedColorPairs
+        .filter(c => c[0].color === c[1].color)
+        .map(c => c[0])
     if (factions.length > (allowedColors.length - excludedColors.length)) {
         throw new AssignmentError("Too many colors excluded")
     }
+    if (
+        fractureColor === FRACTURE_GRAY &&
+        allowedColors.some(c => c.color === COLORS.GRAY.color) &&
+        excludedColors.some(c => c.color === COLORS.GRAY.color)
+    ) {
+        throw new AssignmentError("Cannot assign gray to The Fracture units because gray is excluded")
+    }
 
     const allPermutations = permutations(allowedColors, factions.length)
-    const possiblePermutations = allPermutations.filter(permutation =>
-        !excludedColorPairs.some(pair =>
-            permutation.includes(pair[0]) && permutation.includes(pair[1])
+    const possiblePermutations = allPermutations.filter(permutation => {
+        const hasExcludedPair = excludedColorPairs.some(([first, second]) =>
+            permutation.some(c => c.color === first.color) &&
+            permutation.some(c => c.color === second.color)
         )
-    )
+
+        if (hasExcludedPair) return false
+        if (fractureColor !== FRACTURE_GRAY) return true
+
+        const fractureIndex = factions.findIndex(faction => faction.short === FACTIONS.FRACTURE.short)
+        return (fractureIndex === -1) || permutation[fractureIndex].color === COLORS.GRAY.color
+    })
     if (possiblePermutations.length === 0) {
         throw new AssignmentError("Too many color pairs excluded")
     }

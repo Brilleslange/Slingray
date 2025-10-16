@@ -13,8 +13,8 @@ type Props = {
     setExpansionStates: React.Dispatch<React.SetStateAction<Map<string, boolean>>>;
     firmamentObsidianTwoColors: boolean;
     setFirmamentObsidianTwoColors: React.Dispatch<React.SetStateAction<boolean>>;
-    assignToFracture: boolean;
-    setAssignToFracture: React.Dispatch<React.SetStateAction<boolean>>;
+    fractureColor: string;
+    setFractureColor: React.Dispatch<React.SetStateAction<string>>;
     factions: Faction[]
     colors: Color[],
     setExcludedColors: React.Dispatch<React.SetStateAction<[Color, Color][]>>
@@ -29,7 +29,7 @@ type Props = {
 export const Config: React.FC<Props> = ({
                                             expansions, expansionStates, setExpansionStates,
                                             firmamentObsidianTwoColors, setFirmamentObsidianTwoColors,
-                                            assignToFracture, setAssignToFracture,
+                                            fractureColor, setFractureColor,
                                             factions,
                                             colors, setExcludedColors,
                                             scoring, setScoring,
@@ -49,8 +49,8 @@ export const Config: React.FC<Props> = ({
                     setExpansionStates={setExpansionStates}
                     firmamentObsidianTwoColors={firmamentObsidianTwoColors}
                     setFirmamentObsidianTwoColors={setFirmamentObsidianTwoColors}
-                    assignToFracture={assignToFracture}
-                    setAssignToFracture={setAssignToFracture}
+                    fractureColor={fractureColor}
+                    setFractureColor={setFractureColor}
                 />
                 <ExcludeColors
                     expansionStates={expansionStates}
