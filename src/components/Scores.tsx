@@ -19,7 +19,8 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, firm
 
     const isAllowedColor = (color: Color) => expansionStates.get(color.expansion.short);
     const isAllowedFaction = ((faction: Faction) =>
-        expansionStates.get(faction.expansion.short) && (
+        expansionStates.get(faction.expansion.short) &&
+        faction.short !== FACTIONS.FRACTURE.short && (
             (firmamentObsidianTwoColors && faction.short !== FACTIONS.FIRM_OBS.short) ||
             (!firmamentObsidianTwoColors && faction.short !== FACTIONS.FIRMAMENT.short && faction.short !== FACTIONS.OBSIDIAN.short)
     ));
