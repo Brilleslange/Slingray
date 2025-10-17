@@ -116,8 +116,8 @@ function App() {
                     <InfoIcon />
                     <div className={"flex flex-col gap-2"}>
                         <p>{
-                            "Thunder's Edge functionality has been added, including 5 new factions and 1 new color, " +
-                            "and some additional color assignment options! " +
+                            "Thunder's Edge functionality has been added, including 5 new factions (plus 1 codex faction)" +
+                            " and 1 new color, and some additional color assignment options! " +
                             "However, default color weights are not available yet (I am working on it!). "
                         }</p>
                         <p>{

@@ -64,6 +64,20 @@ export const DEFAULT_SCORING: Scoring[] = [
         },
     },
     {
+        faction: FACTIONS.COUNCIL,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
+        },
+    },
+    {
         faction: FACTIONS.CRIMSON,
         scores: {
             Red: 0,

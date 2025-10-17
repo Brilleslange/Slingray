@@ -5,6 +5,7 @@ export const FACTIONS = {
     ARGENT: { long: "The Argent Flight", short: "argent", expansion: EXPANSIONS.POK },
     BARONY: { long: "The Barony of Letnev", short: "barony", expansion: EXPANSIONS.BASE },
     SAAR: { long: "The Clan of Saar", short: "saar", expansion: EXPANSIONS.BASE },
+    COUNCIL: { long: "The Council Keleres", short: "council", expansion: EXPANSIONS.TE },
     CRIMSON: { long: "The Crimson Rebellion", short: "crimson", expansion: EXPANSIONS.TE },
     DEEPWROUGHT: { long: "The Deepwrought Scholarate", short: "deepwrought", expansion: EXPANSIONS.TE },
     MUAAT: { long: "The Embers of Muaat", short: "muaat", expansion: EXPANSIONS.BASE },

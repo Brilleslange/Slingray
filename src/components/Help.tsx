@@ -95,6 +95,18 @@ export default function Help() {
                         "or if they can have any color, freeing up the gray color for your players."
                     }</div>
                 </div>
+                <div className={"collapse bg-base-200"}>
+                    <input type={"checkbox"}/>
+                    <div className={"collapse-title"}>
+                        I'm not playing with Thunder's Edge, but I want to play with The Council Keleres, what do I do?
+                    </div>
+                    <div className={"collapse-content text-sm"}>{
+                        "Open the Options accordion under Configuration and check the Thunder's Edge expansion, " +
+                        "then check the option to always assign gray to The Firmanent's units. " +
+                        "As long as you don't select any Thunder's Edge factions, " +
+                        "the color assigner will behave as if you don't have the expansion."
+                    }</div>
+                </div>
             </div>
         </div>
     </div>)
