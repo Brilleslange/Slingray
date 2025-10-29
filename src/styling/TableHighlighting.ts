@@ -6,7 +6,8 @@ export const COLOR_CLASS_MAP_TRANSPARENT: Record<string, string> = {
     "Blue": "bg-blue-400/20",
     "Purple": "bg-purple-400/20",
     "Pink": "bg-pink-400/20",
-    "Black": "bg-gray-400/20",
+    "Black": "bg-gray-600/20",
+    "Gray": "bg-gray-400/20",
 }
 
 export const COLOR_CLASS_MAP_OPAQUE: Record<string, string> = {
@@ -17,7 +18,8 @@ export const COLOR_CLASS_MAP_OPAQUE: Record<string, string> = {
     "Blue": "bg-blue-400",
     "Purple": "bg-purple-400",
     "Pink": "bg-pink-400",
-    "Black": "bg-gray-400",
+    "Black": "bg-gray-600",
+    "Gray": "bg-gray-400",
 }
 
 export const COLOR_CLASS_MAP_DARK: Record<string, string> = {
@@ -28,7 +30,8 @@ export const COLOR_CLASS_MAP_DARK: Record<string, string> = {
     "Blue": "bg-blue-950/50",
     "Purple": "bg-purple-950/50",
     "Pink": "bg-pink-950/50",
-    "Black": "bg-gray-950/50"
+    "Black": "bg-gray-950/50",
+    "Gray": "bg-gray-800/50"
 }
 
 export type Highlight = {

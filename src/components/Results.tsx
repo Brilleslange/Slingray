@@ -2,10 +2,13 @@ import * as React from "react";
 import type {Assignment} from "../types/assignment.ts";
 import {COLOR_CLASS_MAP_OPAQUE} from "../styling/TableHighlighting.ts";
 import Cog from "../assets/cog.svg?react";
+import {FACTIONS} from "../types/faction.ts";
+import {FRACTURE_RANDOM} from "./Options.tsx";
 
 type Props = {
     getResults: () => void,
     results: Assignment[],
+    fractureColor: string,
     loading: boolean,
     error: string,
     factionsRef: React.RefObject<HTMLInputElement | null>
@@ -13,7 +16,7 @@ type Props = {
     configRef: React.RefObject<HTMLInputElement | null>
 }
 
-export const Results: React.FC<Props> = ({getResults, results, loading, error, factionsRef, resultsRef, configRef}) => {
+export const Results: React.FC<Props> = ({getResults, results, fractureColor, loading, error, factionsRef, resultsRef, configRef}) => {
     return (<div className={"collapse collapse-arrow bg-base-300"}>
         <input type={"checkbox"} ref={resultsRef}/>
         <div className={"collapse-title"}>
@@ -25,14 +28,18 @@ export const Results: React.FC<Props> = ({getResults, results, loading, error, f
                 { loading && <span className={"loading loading-spinner loading-xl self-center"}/> }
                 { results.length > 0 &&
                     <div className={"grid grid-cols-[max-content_auto_max-content] justify-center gap-4 w-full"}>
-                        {results.map(assignment => {
-                            const colorClass = COLOR_CLASS_MAP_OPAQUE[assignment.color.color] ?? ""
+                        { results.map(assignment => {
+                            if (assignment.faction.short === FACTIONS.FRACTURE.short && fractureColor !== FRACTURE_RANDOM) {
+                                return <></>
+                            } else {
+                                const colorClass = COLOR_CLASS_MAP_OPAQUE[assignment.color.color] ?? ""
 
-                            return <>
-                                <div>{assignment.faction.long}</div>
-                                <div className={"badge " + colorClass}></div>
-                                <div>{assignment.color.color}</div>
-                            </>
+                                return <>
+                                    <div>{assignment.faction.long}</div>
+                                    <div className={"badge " + colorClass}></div>
+                                    <div>{assignment.color.color}</div>
+                                </>
+                            }
                         })}
                     </div>
                 }

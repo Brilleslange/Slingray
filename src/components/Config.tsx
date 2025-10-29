@@ -11,6 +11,10 @@ type Props = {
     expansions: Expansion[];
     expansionStates: Map<string, boolean>;
     setExpansionStates: React.Dispatch<React.SetStateAction<Map<string, boolean>>>;
+    firmamentObsidianTwoColors: boolean;
+    setFirmamentObsidianTwoColors: React.Dispatch<React.SetStateAction<boolean>>;
+    fractureColor: string;
+    setFractureColor: React.Dispatch<React.SetStateAction<string>>;
     factions: Faction[]
     colors: Color[],
     setExcludedColors: React.Dispatch<React.SetStateAction<[Color, Color][]>>
@@ -22,7 +26,16 @@ type Props = {
     configRef: React.RefObject<HTMLInputElement | null>
 }
 
-export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansionStates, factions, colors, setExcludedColors, scoring, setScoring, getResults, factionsRef, resultsRef, configRef}) => {
+export const Config: React.FC<Props> = ({
+                                            expansions, expansionStates, setExpansionStates,
+                                            firmamentObsidianTwoColors, setFirmamentObsidianTwoColors,
+                                            fractureColor, setFractureColor,
+                                            factions,
+                                            colors, setExcludedColors,
+                                            scoring, setScoring,
+                                            getResults,
+                                            factionsRef, resultsRef, configRef
+                                        }) => {
     return (
         <div className={"collapse collapse-arrow bg-base-300"}>
             <input type={"checkbox"} ref={configRef}/>
@@ -34,6 +47,10 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
                     expansions={expansions}
                     expansionStates={expansionStates}
                     setExpansionStates={setExpansionStates}
+                    firmamentObsidianTwoColors={firmamentObsidianTwoColors}
+                    setFirmamentObsidianTwoColors={setFirmamentObsidianTwoColors}
+                    fractureColor={fractureColor}
+                    setFractureColor={setFractureColor}
                 />
                 <ExcludeColors
                     expansionStates={expansionStates}
@@ -44,6 +61,7 @@ export const Config: React.FC<Props> = ({expansions, expansionStates, setExpansi
                     expansionStates={expansionStates}
                     colors={colors}
                     factions={factions}
+                    firmamentObsidianTwoColors={firmamentObsidianTwoColors}
                     scoring={scoring}
                     setScoring={setScoring}
                 />

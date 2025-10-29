@@ -9,6 +9,7 @@ export const COLORS = {
     PURPLE: { color: "Purple", expansion: EXPANSIONS.BASE },
     PINK: { color: "Pink", expansion: EXPANSIONS.POK },
     BLACK: { color: "Black", expansion: EXPANSIONS.BASE },
+    GRAY: { color: "Gray", expansion: EXPANSIONS.TE }
 }
 
 export type Color = typeof COLORS[keyof typeof COLORS]

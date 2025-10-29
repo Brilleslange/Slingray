@@ -18,6 +18,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 1,
             Pink: 0,
             Black: 2,
+            Gray: 0,
         },
     },
     {
@@ -31,6 +32,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 2,
             Pink: 0,
             Black: 1,
+            Gray: 0,
         },
     },
     {
@@ -44,6 +46,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 0,
             Pink: 0,
             Black: 9,
+            Gray: 0,
         },
     },
     {
@@ -57,6 +60,49 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 1,
             Pink: 0,
             Black: 2,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.COUNCIL,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.CRIMSON,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.DEEPWROUGHT,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
         },
     },
     {
@@ -70,6 +116,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 0,
             Pink: 0,
             Black: 4,
+            Gray: 0,
         },
     },
     {
@@ -83,6 +130,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 0,
             Pink: 0,
             Black: 1,
+            Gray: 0,
         },
     },
     {
@@ -96,6 +144,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 9,
             Pink: 3,
             Black: 5,
+            Gray: 0,
         },
     },
     {
@@ -109,6 +158,49 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 0,
             Pink: 0,
             Black: 1,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.FIRM_OBS,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.FIRMAMENT,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.FRACTURE,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
         },
     },
     {
@@ -122,6 +214,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 2,
             Pink: 1,
             Black: 7,
+            Gray: 0,
         },
     },
     {
@@ -135,6 +228,21 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 0,
             Pink: 0,
             Black: 8,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.BASTION,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
         },
     },
     {
@@ -148,6 +256,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 7,
             Pink: 2,
             Black: 1,
+            Gray: 0,
         },
     },
     {
@@ -161,6 +270,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 4,
             Pink: 0,
             Black: 8,
+            Gray: 0,
         },
     },
     {
@@ -174,6 +284,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 1,
             Pink: 0,
             Black: 1,
+            Gray: 0,
         },
     },
     {
@@ -187,6 +298,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 1,
             Pink: 0,
             Black: 2,
+            Gray: 0,
         },
     },
     {
@@ -200,6 +312,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 1,
             Pink: 0,
             Black: 4,
+            Gray: 0,
         },
     },
     {
@@ -213,6 +326,35 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 8,
             Pink: 7,
             Black: 4,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.OBSIDIAN,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
+        },
+    },
+    {
+        faction: FACTIONS.RAL_NEL,
+        scores: {
+            Red: 0,
+            Orange: 0,
+            Yellow: 0,
+            Green: 0,
+            Blue: 0,
+            Purple: 0,
+            Pink: 0,
+            Black: 0,
+            Gray: 0,
         },
     },
     {
@@ -226,6 +368,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 0,
             Pink: 0,
             Black: 8,
+            Gray: 0,
         },
     },
     {
@@ -239,6 +382,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 4,
             Pink: 10,
             Black: 1,
+            Gray: 0,
         },
     },
     {
@@ -252,6 +396,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 9,
             Pink: 4,
             Black: 1,
+            Gray: 0,
         },
     },
     {
@@ -265,6 +410,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 0,
             Pink: 0,
             Black: 6,
+            Gray: 0,
         },
     },
     {
@@ -278,6 +424,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 9,
             Pink: 1,
             Black: 1,
+            Gray: 0,
         },
     },
     {
@@ -291,6 +438,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 1,
             Pink: 0,
             Black: 2,
+            Gray: 0,
         },
     },
     {
@@ -304,6 +452,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 8,
             Pink: 4,
             Black: 5,
+            Gray: 0,
         },
     },
     {
@@ -317,6 +466,7 @@ export const DEFAULT_SCORING: Scoring[] = [
             Purple: 2,
             Pink: 0,
             Black: 6,
+            Gray: 0,
         },
     },
 ];

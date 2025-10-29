@@ -1,6 +1,6 @@
 import * as React from "react";
 import {type ChangeEvent, useState} from "react";
-import type {Faction} from "../types/faction.ts";
+import {type Faction, FACTIONS} from "../types/faction.ts";
 import Cog from "../assets/cog.svg?react";
 
 type Props = {
@@ -17,7 +17,9 @@ type Props = {
 
 export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFactions, setSelectedFactions, getResults, factionsRef, resultsRef, configRef}) => {
     const [randomCount, setRandomCount] = useState(0)
-    const availableFactions = factions.filter(faction => expansionStates.get(faction.expansion.short))
+    const availableFactions = factions.filter(faction =>
+        expansionStates.get(faction.expansion.short) && faction.short !== FACTIONS.FIRMAMENT.short && faction.short !== FACTIONS.OBSIDIAN.short && faction.short !== FACTIONS.FRACTURE.short
+    )
 
     const RandomizeFactionsInput = (() => {
         return <input
@@ -95,7 +97,7 @@ export const Factions: React.FC<Props> = ({expansionStates, factions, selectedFa
                 <div className={"grid w-full gap-3 [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]"}>
                     {factions.map(faction =>
                         <label
-                            className={`label ${expansionStates.get(faction.expansion.short) ? "" : "hidden"}`}
+                            className={`label ${availableFactions.some(f => f.short === faction.short) ? "" : "hidden"}`}
                             key={faction.short}
                         >
                             <input
