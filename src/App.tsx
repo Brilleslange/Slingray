@@ -79,7 +79,7 @@ function App() {
                 setFractureColor(localStorage.getItem(FRACTURE_COLOR) ?? FRACTURE_GRAY)
 
                 const scoringFromLocalStorage = localStorage.getItem("scoring");
-                if (scoringFromLocalStorage) {
+                if (scoringFromLocalStorage !== null && scoringFromLocalStorage.length > 0) {
                     const parsedScoring = JSON.parse(scoringFromLocalStorage) as Scoring[];
                     if (isValidScoring(parsedScoring)) {
                         setScoring(parsedScoring);
@@ -103,10 +103,6 @@ function App() {
         setLoading(true);
         initializeApp().finally(() => setLoading(false));
     }, [])
-
-    useEffect(() => {
-        localStorage.setItem("scoring", JSON.stringify(scoring))
-    }, [scoring]);
 
     return (
         <div className="flex flex-col h-full">

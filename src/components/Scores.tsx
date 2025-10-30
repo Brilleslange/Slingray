@@ -48,13 +48,13 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, firm
         })
 
         setScoring(newScoring)
+        localStorage.setItem("scoring", JSON.stringify(newScoring))
         setEditing(false)
     }
 
     function resetScoring() {
-        fetch("/api/scoring").then(res => res.json()).then(defaultScoring => {
-            setScoring(defaultScoring as Scoring[])
-        })
+        setScoring(DEFAULT_SCORING)
+        localStorage.setItem("scoring", "")
     }
 
     return (<div className={"collapse collapse-plus border"}>
