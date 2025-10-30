@@ -6,6 +6,19 @@ export type Scoring = {
     scores: Record<Color["color"], number>;
 };
 
+/**
+ * Scores have been assigned to each color for each faction based on the following criteria:
+ *
+ * 10 points: The only color on the control token's faction symbol side.
+ * 9 points: The background color on the control token's faction symbol side.
+ * 8 points: The color appears on the faction symbol.
+ * 7 points: The color of the ship on the control token's fleet symbol side.
+ * 5 points: A main color on the faction sheet.
+ * 4 points: A secondary color on the faction sheet.
+ * 2 points: An accent color on the faction sheet.
+ * 1 point: A complimentary color to the faction sheet.
+**/
+
 export const DEFAULT_SCORING: Scoring[] = [
     {
         faction: FACTIONS.ARBOREC,
