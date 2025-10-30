@@ -32,12 +32,12 @@ export const Results: React.FC<Props> = ({getResults, results, fractureColor, lo
                             if (assignment.faction.short === FACTIONS.FRACTURE.short && fractureColor !== FRACTURE_RANDOM) {
                                 return <></>
                             } else {
-                                const colorClass = COLOR_CLASS_MAP_OPAQUE[assignment.color.color] ?? ""
+                                const colorClass = COLOR_CLASS_MAP_OPAQUE[assignment.color.long] ?? ""
 
                                 return <>
                                     <div>{assignment.faction.long}</div>
                                     <div className={"badge " + colorClass}></div>
-                                    <div>{assignment.color.color}</div>
+                                    <div>{assignment.color.long}</div>
                                 </>
                             }
                         })}

@@ -96,7 +96,7 @@ function App() {
             if (retrievedScoring.length !== factions.length) return false;
             if (!retrievedScoring.every(s => Object.keys(s.scores).length === colors.length)) return false;
             if (!retrievedScoring.every(s => factions.some((f: Faction) => f.short === s.faction.short))) return false;
-            if (!retrievedScoring.every(s => Object.keys(s.scores).every(c => colors.some((col: Color) => col.color === c)))) return false;
+            if (!retrievedScoring.every(s => Object.keys(s.scores).every(c => colors.some((col: Color) => col.long === c)))) return false;
             return true;
         }
 

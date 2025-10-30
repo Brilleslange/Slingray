@@ -121,25 +121,26 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                             <th/>
                             {colors.map((color, colorIndex) => {
                                 const isHighlighted = highlight.col === colorIndex
-                                const highlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.color] ?? ""
+                                const highlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.long] ?? ""
 
                                 return <th
-                                    key={color.color}
+                                    key={color.long}
                                     scope={"col"}
                                     className={`!pl-0 !pr-0 ${isAllowedColor(color) ? "" : "hidden"} ${isHighlighted ? highlightColor : ""}`}
                                     onMouseEnter={() => setHighlight({row: null, col: colorIndex})}
                                     onMouseLeave={() => setHighlight({row: null, col: null})}
                                 >
-                                    {color.color}
+                                    <div className={"hidden sm:block"}>{color.long}</div>
+                                    <div className={"sm:hidden"}>{color.short}</div>
                                 </th>
                             })}
                         </tr>
                         {colors.map((rowColor, rowIndex) => {
                             const isRowHighlighted = highlight.row === rowIndex
-                            const rowHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[rowColor.color] ?? ""
+                            const rowHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[rowColor.long] ?? ""
 
                             return <tr
-                                key={rowColor.color}
+                                key={rowColor.long}
                                 className={`border-0 ${isAllowedColor(rowColor) ? "" : " hidden"}`}
                             >
                                 <th
@@ -148,14 +149,15 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                                     onMouseEnter={() => setHighlight({row: rowIndex, col: null})}
                                     onMouseLeave={() => setHighlight({row: null, col: null})}
                                 >
-                                    {rowColor.color}
+                                    <div className={"hidden sm:block"}>{rowColor.long}</div>
+                                    <div className={"sm:hidden"}>{rowColor.short}</div>
                                 </th>
                                 {colors.map((colColor, colIndex) => {
                                     const isColHighlighted = highlight.col === colIndex
-                                    const colHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[colColor.color] ?? ""
+                                    const colHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[colColor.long] ?? ""
 
                                     return <td
-                                        key={colColor.color}
+                                        key={colColor.long}
                                         className={`!p-1 sm:!p-3 relative ${isAllowedColor(colColor) ? "" : "hidden"} isolate`}
                                         onMouseEnter={() => setHighlight({row: rowIndex, col: colIndex})}
                                         onMouseLeave={() => setHighlight({row: null, col: null})}
@@ -171,7 +173,7 @@ export const ExcludeColors: React.FC<Props> = ({expansionStates, colors, setExcl
                                                 type={"checkbox"}
                                                 className={"checkbox"}
                                                 name={"color_exclude"}
-                                                id={`${rowColor.color.toLowerCase()}-${colColor.color.toLowerCase()}`}
+                                                id={`${rowColor.long.toLowerCase()}-${colColor.long.toLowerCase()}`}
                                                 checked={checked[rowIndex][colIndex]}
                                                 onChange={e => mirrorCheck(e, rowIndex, colIndex)}
                                             />

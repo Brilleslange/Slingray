@@ -3,7 +3,7 @@ import {type Color} from "./color.ts";
 
 export type Scoring = {
     faction: Faction;
-    scores: Record<Color["color"], number>;
+    scores: Record<Color["long"], number>;
 };
 
 /**

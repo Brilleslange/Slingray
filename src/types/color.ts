@@ -1,15 +1,15 @@
 import {EXPANSIONS} from "./expansion.ts";
 
 export const COLORS = {
-    RED: { color: "Red", expansion: EXPANSIONS.BASE },
-    ORANGE: { color: "Orange", expansion: EXPANSIONS.POK },
-    YELLOW: { color: "Yellow", expansion: EXPANSIONS.BASE },
-    GREEN: { color: "Green", expansion: EXPANSIONS.BASE },
-    BLUE: { color: "Blue", expansion: EXPANSIONS.BASE },
-    PURPLE: { color: "Purple", expansion: EXPANSIONS.BASE },
-    PINK: { color: "Pink", expansion: EXPANSIONS.POK },
-    BLACK: { color: "Black", expansion: EXPANSIONS.BASE },
-    GRAY: { color: "Gray", expansion: EXPANSIONS.TE }
+    RED: { long: "Red", short: "Rd", expansion: EXPANSIONS.BASE },
+    ORANGE: { long: "Orange", short: "Or", expansion: EXPANSIONS.POK },
+    YELLOW: { long: "Yellow", short: "Yl", expansion: EXPANSIONS.BASE },
+    GREEN: { long: "Green", short: "Gn", expansion: EXPANSIONS.BASE },
+    BLUE: { long: "Blue", short: "Bl", expansion: EXPANSIONS.BASE },
+    PURPLE: { long: "Purple", short: "Pr", expansion: EXPANSIONS.BASE },
+    PINK: { long: "Pink", short: "Pk", expansion: EXPANSIONS.POK },
+    BLACK: { long: "Black", short: "Bk", expansion: EXPANSIONS.BASE },
+    GRAY: { long: "Gray", short: "Gy", expansion: EXPANSIONS.TE }
 }
 
 export type Color = typeof COLORS[keyof typeof COLORS]

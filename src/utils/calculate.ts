@@ -53,15 +53,15 @@ export async function assign(
 
     const allowedColors = colors.filter(c => expansionStates.get(c.expansion.short))
     const excludedColors = excludedColorPairs
-        .filter(c => c[0].color === c[1].color)
+        .filter(c => c[0].long === c[1].long)
         .map(c => c[0])
     if (factions.length > (allowedColors.length - excludedColors.length)) {
         throw new AssignmentError("Too many colors excluded")
     }
     if (
         fractureColor === FRACTURE_GRAY &&
-        allowedColors.some(c => c.color === COLORS.GRAY.color) &&
-        excludedColors.some(c => c.color === COLORS.GRAY.color)
+        allowedColors.some(c => c.long === COLORS.GRAY.long) &&
+        excludedColors.some(c => c.long === COLORS.GRAY.long)
     ) {
         throw new AssignmentError("Cannot assign gray to The Fracture units because gray is excluded")
     }
@@ -69,15 +69,15 @@ export async function assign(
     const allPermutations = permutations(allowedColors, factions.length)
     const possiblePermutations = allPermutations.filter(permutation => {
         const hasExcludedPair = excludedColorPairs.some(([first, second]) =>
-            permutation.some(c => c.color === first.color) &&
-            permutation.some(c => c.color === second.color)
+            permutation.some(c => c.long === first.long) &&
+            permutation.some(c => c.long === second.long)
         )
 
         if (hasExcludedPair) return false
         if (fractureColor !== FRACTURE_GRAY) return true
 
         const fractureIndex = factions.findIndex(faction => faction.short === FACTIONS.FRACTURE.short)
-        return (fractureIndex === -1) || permutation[fractureIndex].color === COLORS.GRAY.color
+        return (fractureIndex === -1) || permutation[fractureIndex].long === COLORS.GRAY.long
     })
     if (possiblePermutations.length === 0) {
         throw new AssignmentError("Too many color pairs excluded")
@@ -121,7 +121,7 @@ function findMaxScoringPermutations(permutations: Color[][], factions: Faction[]
         const score = factions.map((f, index) => {
             const color = permutation[index]
             const scoringForFaction = scoring.find(s => s.faction.short === f.short)!!
-            return scoringForFaction.scores[color.color]
+            return scoringForFaction.scores[color.long]
         })
         return {
             permutation: permutation,

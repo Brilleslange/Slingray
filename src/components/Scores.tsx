@@ -1,5 +1,5 @@
 import * as React from "react";
-import type {Scoring} from "../types/scoring.ts";
+import {DEFAULT_SCORING, type Scoring} from "../types/scoring.ts";
 import type {Color} from "../types/color.ts";
 import {type Faction, FACTIONS} from "../types/faction.ts";
 import {COLOR_CLASS_MAP_DARK, COLOR_CLASS_MAP_TRANSPARENT, type Highlight} from "../styling/TableHighlighting.ts";
@@ -31,14 +31,14 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, firm
         const newScoring: Scoring[] = factions.map((faction) => {
             const scores: Record<string, number> = {}
 
-            colors.forEach(({ color }) => {
-                const id = `${faction.short}-${color.toLowerCase()}`;
+            colors.forEach((color) => {
+                const id = `${faction.short}-${color.long.toLowerCase()}`;
                 const element = document.getElementById(id) as HTMLInputElement;
 
                 let value = Number(element?.valueAsNumber);
                 if (!Number.isFinite(value)) value = 0;
                 value = Math.trunc(value);
-                scores[color] = value;
+                scores[color.long] = value;
             });
 
             return {
@@ -86,16 +86,16 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, firm
                                 <th></th>
                                 {colors.map((color, colorIndex) => {
                                     const isHighlighted = highlight.col === colorIndex
-                                    const highlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.color] ?? ""
+                                    const highlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.long] ?? ""
 
                                     return <th
-                                        key={color.color.toLowerCase()}
+                                        key={color.long.toLowerCase()}
                                         scope={"col"}
                                         className={`${isAllowedColor(color) ? "" : "hidden"} ${isHighlighted ? highlightColor : ""}`}
                                         onMouseEnter={() => setHighlight({row: null, col: colorIndex})}
                                         onMouseLeave={() => setHighlight({row: null, col: null})}
                                     >
-                                        {color.color}
+                                        {color.long}
                                     </th>
                                 })}
                             </tr>
@@ -117,11 +117,11 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, firm
                                     </th>
                                     {colors.map((color, colIndex) => {
                                         const isColHighlighted = highlight.col === colIndex
-                                        const colHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.color] ?? ""
-                                        const inputColor = COLOR_CLASS_MAP_DARK[color.color] ?? ""
+                                        const colHighlightColor = COLOR_CLASS_MAP_TRANSPARENT[color.long] ?? ""
+                                        const inputColor = COLOR_CLASS_MAP_DARK[color.long] ?? ""
 
                                         return <td
-                                            key={color.color.toLowerCase()}
+                                            key={color.long.toLowerCase()}
                                             className={`relative ${isAllowedColor(color) ? "" : "hidden"} isolate`}
                                             onMouseEnter={() => setHighlight({row: rowIndex, col: colIndex})}
                                             onMouseLeave={() => setHighlight({row: null, col: null})}
@@ -136,13 +136,13 @@ export const Scores: React.FC<Props> = ({expansionStates, colors, factions, firm
                                                 {editing
                                                     ? (<input
                                                         type={"number"}
-                                                        id={`${faction.short}-${color.color.toLowerCase()}`}
+                                                        id={`${faction.short}-${color.long.toLowerCase()}`}
                                                         className={`input w-20 ${inputColor}`}
                                                         min={0}
-                                                        defaultValue={scoring.find(s => s.faction.short === faction.short)?.scores[color.color]}
+                                                        defaultValue={scoring.find(s => s.faction.short === faction.short)?.scores[color.long]}
                                                     />)
                                                     : (<p className={"text-right"}>
-                                                        {scoring.find(s => s.faction.short === faction.short)?.scores[color.color]}
+                                                        {scoring.find(s => s.faction.short === faction.short)?.scores[color.long]}
                                                     </p>)
                                                 }
                                             </div>
